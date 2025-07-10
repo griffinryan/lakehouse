@@ -14,6 +14,11 @@
     --white: #ffffff;
     --text-primary: #fef3c7;
     --text-secondary: rgba(254, 243, 199, 0.8);
+    
+    /* Festival Poster Colors */
+    --coral-pink: #ff6b6b;
+    --coral-pink-hover: #ff4757;
+    --coral-pink-dark: #ee5a6f;
 }
 
 body {
@@ -193,6 +198,208 @@ body {
     letter-spacing: 0.05em;
 }
 
+/* Band Lineup Section */
+.band-lineup {
+    width: 33%;
+    margin: 3rem auto;
+    animation: fadeInUp 1s ease-out 0.5s both;
+}
+
+.lineup-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.band-name {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-weight: 900;
+    transition: all 0.3s ease;
+}
+
+.band-word {
+    display: inline-block;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: -0.02em;
+}
+
+/* Row-specific font sizes */
+.lineup-row-1 .band-name {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    min-height: 4rem;
+}
+
+.lineup-row-2 .band-name {
+    font-size: clamp(2rem, 4vw, 3rem);
+    min-height: 3.5rem;
+}
+
+.lineup-row-3 .band-name {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    min-height: 3rem;
+}
+
+/* Small words styling */
+.small-word {
+    font-size: 0.6em;
+    font-family: 'Anton', sans-serif;
+    letter-spacing: 0.05em;
+    margin: 0 0.2em;
+    opacity: 0.9;
+}
+
+/* Highlight styling */
+.highlight {
+    color: var(--coral-pink);
+    text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+}
+
+/* Individual Band Styling with Transforms */
+.sex-bob-omb {
+    transform: skewY(-5deg);
+    transform-origin: left center;
+}
+
+.sex-bob-omb .band-word:first-child {
+    font-family: 'Black Ops One', sans-serif;
+    transform: scaleX(1.1);
+}
+
+.crash-and-boys {
+    transform: skewY(3deg);
+}
+
+.crash-and-boys .band-word:first-child {
+    font-family: 'Anton', sans-serif;
+    transform: scaleX(0.9);
+}
+
+.crash-and-boys .small-word:nth-of-type(1) {
+    transform: rotate(-15deg);
+    display: inline-block;
+}
+
+.crash-and-boys .small-word:nth-of-type(2) {
+    transform: rotate(-10deg) translateY(-0.1em);
+    display: inline-block;
+}
+
+.clash-at-demonhead {
+    transform: skewY(-3deg) rotate(-2deg);
+}
+
+.clash-at-demonhead .small-word:first-child {
+    transform: rotate(-20deg) translateY(0.2em);
+    font-size: 0.5em;
+}
+
+.clash-at-demonhead .band-word:nth-of-type(4) {
+    font-family: 'Black Ops One', sans-serif;
+    transform: scaleX(0.85);
+}
+
+.single-bodies {
+    transform: skewY(4deg);
+}
+
+.single-bodies .band-word:first-child {
+    transform: scaleX(0.8);
+}
+
+.single-bodies .band-word:last-child {
+    font-family: 'Anton', sans-serif;
+}
+
+.little-dog {
+    transform: rotate(-5deg) skewY(-2deg);
+}
+
+.little-dog .band-word:first-child {
+    font-family: 'Anton', sans-serif;
+    transform: scaleX(1.2);
+}
+
+.betty-black {
+    transform: rotate(3deg) skewY(2deg);
+}
+
+.betty-black .band-word:last-child {
+    font-family: 'Black Ops One', sans-serif;
+    transform: scaleX(0.95);
+}
+
+/* Adjust spacing between transformed elements */
+.band-name > * + * {
+    margin-left: 0.15em;
+}
+
+/* Hover Effects */
+.band-name:hover {
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.band-name:hover .band-word:not(.small-word) {
+    color: var(--coral-pink-hover);
+    text-shadow: 0 0 30px rgba(255, 71, 87, 0.7);
+}
+
+.band-name:hover .highlight {
+    color: var(--cream);
+    text-shadow: 0 0 30px rgba(254, 243, 199, 0.5);
+}
+
+/* Individual band hover overrides */
+.sex-bob-omb:hover {
+    transform: skewY(-5deg) scale(1.05);
+}
+
+.crash-and-boys:hover {
+    transform: skewY(3deg) scale(1.05);
+}
+
+.clash-at-demonhead:hover {
+    transform: skewY(-3deg) rotate(-2deg) scale(1.05);
+}
+
+.single-bodies:hover {
+    transform: skewY(4deg) scale(1.05);
+}
+
+.little-dog:hover {
+    transform: rotate(-5deg) skewY(-2deg) scale(1.05);
+}
+
+.betty-black:hover {
+    transform: rotate(3deg) skewY(2deg) scale(1.05);
+}
+
+/* Hover ripple effect */
+.band-name::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255, 107, 107, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.band-name:hover::after {
+    opacity: 1;
+}
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -221,6 +428,69 @@ body {
     
     .location {
         font-size: clamp(1.5rem, 8vw, 2.5rem);
+    }
+    
+    /* Band Lineup Mobile Styles */
+    .band-lineup {
+        width: 90%;
+        margin: 2rem auto;
+    }
+    
+    .lineup-row {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+    }
+    
+    .band-name {
+        margin-bottom: 0.5rem;
+    }
+    
+    .lineup-row-1 .band-name {
+        font-size: clamp(2rem, 8vw, 2.5rem);
+        min-height: auto;
+    }
+    
+    .lineup-row-2 .band-name {
+        font-size: clamp(1.75rem, 7vw, 2.25rem);
+        min-height: auto;
+    }
+    
+    .lineup-row-3 .band-name {
+        font-size: clamp(1.5rem, 6vw, 2rem);
+        min-height: auto;
+    }
+    
+    /* Adjust transforms for mobile */
+    .sex-bob-omb,
+    .crash-and-boys,
+    .clash-at-demonhead,
+    .single-bodies,
+    .little-dog,
+    .betty-black {
+        transform: none;
+    }
+    
+    .sex-bob-omb:hover,
+    .crash-and-boys:hover,
+    .clash-at-demonhead:hover,
+    .single-bodies:hover,
+    .little-dog:hover,
+    .betty-black:hover {
+        transform: scale(1.02);
+    }
+    
+    /* Keep small word rotations but reduce them */
+    .crash-and-boys .small-word:nth-of-type(1) {
+        transform: rotate(-8deg);
+    }
+    
+    .crash-and-boys .small-word:nth-of-type(2) {
+        transform: rotate(-5deg) translateY(-0.05em);
+    }
+    
+    .clash-at-demonhead .small-word:first-child {
+        transform: rotate(-10deg) translateY(0.1em);
     }
 }
 
