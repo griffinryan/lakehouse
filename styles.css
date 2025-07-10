@@ -48,6 +48,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    perspective: 1000px;
+    transform-style: preserve-3d;
     padding: 2rem;
     text-align: center;
 }
@@ -84,6 +86,8 @@ body {
     display: inline-block;
     transition: all 0.3s ease;
     position: relative;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
 }
 
 .artistic-title .letter-space {
@@ -194,6 +198,8 @@ body {
     letter-spacing: 0.05em;
     color: var(--text-secondary);
     text-transform: uppercase;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
 }
 
 .event-details {
@@ -324,6 +330,8 @@ body {
     text-transform: uppercase;
     font-weight: 900;
     transition: all 0.3s ease;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
 }
 
 .band-word {
@@ -577,6 +585,8 @@ body {
     font-weight: 900;
     transform: rotate(-2deg) skewY(2deg);
     transition: all 0.3s ease;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
 }
 
 .date-part {

@@ -19,9 +19,9 @@ export class Firefly {
         // State
         this.originalPosition = this.options.position.clone();
         this.velocity = new THREE.Vector3(
-            (Math.random() - 0.5) * 0.5,
-            (Math.random() - 0.5) * 0.5,
-            (Math.random() - 0.5) * 0.5
+            (Math.random() - 0.5) * 30,
+            (Math.random() - 0.5) * 30,
+            (Math.random() - 0.5) * 30
         );
         this.time = Math.random() * Math.PI * 2;
         this.blinkIntensity = 1;
@@ -72,8 +72,8 @@ export class Firefly {
         // Mouse interaction
         this.updateMouseInteraction(mousePosition, mouseRadius, mouseForce, deltaTime);
         
-        // Apply velocity
-        this.mesh.position.add(this.velocity.clone().multiplyScalar(deltaTime * 60));
+        // Apply velocity with proper frame-independent movement
+        this.mesh.position.add(this.velocity.clone().multiplyScalar(deltaTime));
         
         // Boundary wrapping
         this.wrapBoundaries();
@@ -89,16 +89,16 @@ export class Firefly {
         const floatZ = Math.sin(this.time * this.options.floatSpeed * 0.7) * this.options.floatRadius * 0.5;
         
         // Add to velocity for organic movement
-        this.velocity.x += (floatX - this.velocity.x) * deltaTime * 0.5;
-        this.velocity.y += (floatY - this.velocity.y) * deltaTime * 0.5;
-        this.velocity.z += (floatZ - this.velocity.z) * deltaTime * 0.5;
+        this.velocity.x += (floatX - this.velocity.x) * deltaTime * 0.1;
+        this.velocity.y += (floatY - this.velocity.y) * deltaTime * 0.1;
+        this.velocity.z += (floatZ - this.velocity.z) * deltaTime * 0.1;
         
         // Add small random perturbations
         if (Math.random() < 0.01) {
             this.velocity.add(new THREE.Vector3(
-                (Math.random() - 0.5) * 2,
-                (Math.random() - 0.5) * 2,
-                (Math.random() - 0.5) * 2
+                (Math.random() - 0.5) * 120,
+                (Math.random() - 0.5) * 120,
+                (Math.random() - 0.5) * 120
             ));
         }
         
@@ -145,9 +145,9 @@ export class Firefly {
             const tangent = new THREE.Vector3(-direction.y, direction.x, 0).normalize();
             const swirlForce = force * mouseForce * this.options.curiosity;
             
-            // Combine repulsion and swirl
-            const repulsionForce = direction.multiplyScalar(force * mouseForce * 0.5);
-            const swirlVector = tangent.multiplyScalar(swirlForce);
+            // Combine repulsion and swirl with frame-independent scaling
+            const repulsionForce = direction.multiplyScalar(force * mouseForce * 30);
+            const swirlVector = tangent.multiplyScalar(swirlForce * 60);
             
             this.velocity.add(repulsionForce);
             this.velocity.add(swirlVector);

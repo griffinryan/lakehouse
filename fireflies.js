@@ -38,7 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Add swirl animations to text elements
+    // TextSwirl animations disabled to prevent conflicts with MouseFollowText
+    // Keeping this code commented for future reference
+    /*
     const addSwirlInteractions = () => {
         // Band names swirl on hover
         document.querySelectorAll('.band-name').forEach(band => {
@@ -89,4 +91,63 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize swirl interactions after a short delay to ensure everything is loaded
     setTimeout(addSwirlInteractions, 500);
+    */
+    
+    // Initialize mouse follow text effects
+    const initMouseFollowText = () => {
+        if (!fireflySystem.mouseFollowText) return;
+        
+        // Add venue name with enhanced sticky settings
+        const venueName = document.querySelector('.venue-name');
+        if (venueName) {
+            fireflySystem.mouseFollowText.addElement(venueName, {
+                influenceRadius: 300,
+                springStiffness: 0.15,
+                maxDisplacement: 180,
+                zDepth: 1.2,
+                stickiness: 0.3,
+                minDistance: 40,
+                returnForce: 0.06
+            });
+        }
+        
+        // Add band names with responsive settings
+        document.querySelectorAll('.band-name').forEach((band, index) => {
+            fireflySystem.mouseFollowText.addElement(band, {
+                influenceRadius: 250,
+                springStiffness: 0.12,
+                damping: 0.90 + index * 0.005,
+                maxDisplacement: 140,
+                stickiness: 0.25,
+                minDistance: 35
+            });
+        });
+        
+        // Add date display with moderate effect
+        const dateDisplay = document.querySelector('.date-display');
+        if (dateDisplay) {
+            fireflySystem.mouseFollowText.addElement(dateDisplay, {
+                influenceRadius: 200,
+                springStiffness: 0.10,
+                maxDisplacement: 100,
+                returnForce: 0.07,
+                stickiness: 0.2
+            });
+        }
+        
+        // Add tagline with subtle but responsive effect
+        const tagline = document.querySelector('.tagline');
+        if (tagline) {
+            fireflySystem.mouseFollowText.addElement(tagline, {
+                influenceRadius: 180,
+                springStiffness: 0.08,
+                maxDisplacement: 80,
+                damping: 0.93,
+                stickiness: 0.15
+            });
+        }
+    };
+    
+    // Initialize mouse follow after a delay
+    setTimeout(initMouseFollowText, 600);
 });
