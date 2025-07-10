@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lakehouse Seattle - An Intimate Live Set Series</title>
+    <meta name="description" content="Experience the future of live music at Lakehouse Seattle. An intimate live set series where festival-quality production meets authentic performance.">
+    
+    <!-- Open Graph / Social Media Tags -->
+    <meta property="og:title" content="Lakehouse Seattle - An Intimate Live Set Series">
+    <meta property="og:description" content="Doors 7PM • Show 8PM • Limited Capacity">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="/og-image.jpg">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Import map for ES6 modules -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "./node_modules/three/build/three.module.js",
+            "three/examples/jsm/": "./node_modules/three/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+    
+    <main class="container">
+        <header class="hero">
+            <h1 class="venue-name">
+                <span class="lake">LAKE</span><span class="house">HOUSE</span>
+            </h1>
+            <div class="location">SEATTLE</div>
+            <p class="tagline">An Intimate Live Set Series</p>
+        </header>
+        
+        <section class="event-details">
+            <div class="timing">
+                <div class="detail">
+                    <span class="label">DOORS</span>
+                    <span class="time">7PM</span>
+                </div>
+                <div class="divider">•</div>
+                <div class="detail">
+                    <span class="label">SHOW</span>
+                    <span class="time">8PM</span>
+                </div>
+            </div>
+            
+            <div class="cta">
+                <p class="exclusive">Limited Capacity • By Invitation</p>
+                <a href="mailto:contact@lakehousesea.com" class="contact-link">
+                    contact@lakehousesea.com
+                    <span class="for-details">for location details</span>
+                </a>
+            </div>
+        </section>
+        
+        <footer class="atmosphere">
+            <p>Where festival meets living room</p>
+        </footer>
+    </main>
+    
+    <script type="module" src="fireflies.js"></script>
+</body>
+</html>

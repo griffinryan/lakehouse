@@ -1,0 +1,25 @@
+{
+  "name": "lakehouse-seattle",
+  "version": "1.0.0",
+  "description": "An intimate live set series - Lakehouse Seattle",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=8080 --host=localhost",
+    "dev": "live-server --port=8080 --host=localhost",
+    "serve": "npx serve -s . -p 8080"
+  },
+  "keywords": [
+    "music",
+    "event",
+    "seattle",
+    "lakehouse"
+  ],
+  "author": "Lakehouse Seattle",
+  "license": "ISC",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "dependencies": {
+    "three": "^0.178.0"
+  }
+}
