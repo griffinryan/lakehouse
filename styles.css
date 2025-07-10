@@ -73,11 +73,13 @@ body {
 
 /* Artistic Title Styling */
 .artistic-title {
-    font-family: 'Permanent Marker', cursive;
-    font-weight: 400;
-    letter-spacing: 0.05em;
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 900;
+    letter-spacing: -0.04em;
     display: inline-block;
     margin-bottom: 2rem;
+    text-transform: uppercase;
+    transform: scaleX(0.9);
 }
 
 .artistic-title .letter {
@@ -91,62 +93,267 @@ body {
     width: 0.3em;
 }
 
-/* Individual letter rotations for artistic effect */
-.letter-l { transform: rotate(-8deg) translateY(3px); }
-.letter-a { transform: rotate(12deg) translateY(-2px); }
-.letter-k { transform: rotate(-5deg) translateY(4px); }
-.letter-e { transform: rotate(7deg) translateY(-3px); }
-.letter-h { transform: rotate(-10deg) translateY(2px); }
-.letter-o { transform: rotate(4deg) translateY(-1px); }
-.letter-u { transform: rotate(-6deg) translateY(3px); }
-.letter-s { transform: rotate(9deg) translateY(-4px); }
-.letter-e2 { transform: rotate(-3deg) translateY(1px); }
-.letter-s2 { transform: rotate(11deg) translateY(-2px); }
-.letter-e3 { transform: rotate(-7deg) translateY(4px); }
-.letter-a2 { transform: rotate(5deg) translateY(-3px); }
-.letter-t { transform: rotate(-9deg) translateY(2px); }
-.letter-t2 { transform: rotate(6deg) translateY(-1px); }
-.letter-l2 { transform: rotate(-4deg) translateY(3px); }
-.letter-e4 { transform: rotate(8deg) translateY(-2px); }
+/* Individual letter earthquake animations */
+.letter-l { 
+    animation: earthquakeX 0.2s ease-in-out infinite,
+               earthquakeY 0.15s ease-in-out infinite reverse,
+               earthquakeRotate 0.3s ease-in-out infinite;
+}
+.letter-a { 
+    animation: earthquakeY 0.18s ease-in-out infinite,
+               earthquakeX 0.25s ease-in-out infinite reverse,
+               textShadowShake 0.4s ease-in-out infinite;
+}
+.letter-k { 
+    animation: earthquakeIntense 0.35s ease-in-out infinite;
+    animation-delay: 0.05s;
+}
+.letter-e { 
+    animation: earthquakeX 0.22s ease-in-out infinite reverse,
+               earthquakeRotate 0.28s ease-in-out infinite;
+}
+.letter-h { 
+    animation: earthquakeY 0.19s ease-in-out infinite,
+               earthquakeX 0.24s ease-in-out infinite,
+               textShadowShake 0.5s ease-in-out infinite reverse;
+}
+.letter-o { 
+    animation: earthquakeIntense 0.4s ease-in-out infinite reverse;
+    animation-delay: 0.1s;
+}
+.letter-u { 
+    animation: earthquakeRotate 0.26s ease-in-out infinite,
+               earthquakeY 0.21s ease-in-out infinite reverse;
+}
+.letter-s { 
+    animation: earthquakeX 0.17s ease-in-out infinite,
+               earthquakeY 0.23s ease-in-out infinite,
+               earthquakeRotate 0.32s ease-in-out infinite reverse;
+}
+.letter-e2 { 
+    animation: earthquakeIntense 0.38s ease-in-out infinite;
+    animation-delay: 0.15s;
+}
+.letter-s2 { 
+    animation: earthquakeY 0.2s ease-in-out infinite reverse,
+               earthquakeX 0.16s ease-in-out infinite,
+               textShadowShake 0.45s ease-in-out infinite;
+}
+.letter-e3 { 
+    animation: earthquakeRotate 0.29s ease-in-out infinite,
+               earthquakeX 0.19s ease-in-out infinite reverse;
+}
+.letter-a2 { 
+    animation: earthquakeIntense 0.42s ease-in-out infinite reverse;
+    animation-delay: 0.08s;
+}
+.letter-t { 
+    animation: earthquakeX 0.18s ease-in-out infinite,
+               earthquakeY 0.22s ease-in-out infinite reverse,
+               earthquakeRotate 0.35s ease-in-out infinite;
+}
+.letter-t2 { 
+    animation: earthquakeY 0.24s ease-in-out infinite,
+               textShadowShake 0.48s ease-in-out infinite reverse;
+}
+.letter-l2 { 
+    animation: earthquakeIntense 0.36s ease-in-out infinite;
+    animation-delay: 0.12s;
+}
+.letter-e4 { 
+    animation: earthquakeX 0.21s ease-in-out infinite reverse,
+               earthquakeY 0.17s ease-in-out infinite,
+               earthquakeRotate 0.3s ease-in-out infinite reverse;
+}
 
-/* Color highlights */
+/* Color highlights with earthquake shadow animations */
 .artistic-title .coral {
     color: var(--coral-pink);
-    text-shadow: 
-        0 0 25px rgba(255, 107, 107, 0.6),
-        0 0 50px rgba(255, 107, 107, 0.3);
+    animation: earthquakeCoralShadow 0.6s ease-in-out infinite;
 }
 
 .artistic-title .yellow {
     color: var(--sunset-gold);
-    text-shadow: 
-        0 0 25px rgba(251, 191, 36, 0.6),
-        0 0 50px rgba(251, 191, 36, 0.3);
+    animation: earthquakeYellowShadow 0.7s ease-in-out infinite reverse;
 }
 
 /* Base color for non-highlighted letters */
 .artistic-title .letter:not(.coral):not(.yellow) {
     color: var(--cream);
-    text-shadow: 
-        0 0 20px rgba(254, 243, 199, 0.3),
-        0 0 40px rgba(254, 243, 199, 0.2);
+    animation: textShadowShake 0.5s ease-in-out infinite;
 }
 
-/* Hover effects */
+/* Creative spacing and transform for compressed look */
+.artistic-title .letter {
+    margin: 0 -0.02em;
+    transform-origin: center bottom;
+}
+
+/* Variable letter spacing for dynamic feel */
+.letter-l, .letter-s2 { margin-right: -0.04em; }
+.letter-a, .letter-e3 { margin-left: -0.03em; }
+.letter-k, .letter-t { margin-right: -0.05em; }
+.letter-h, .letter-l2 { transform: scaleX(0.95); }
+.letter-o, .letter-a2 { transform: scaleX(1.05); }
+
+/* Add earthquake shadow animations for colored letters */
+@keyframes earthquakeCoralShadow {
+    0%, 100% { 
+        text-shadow: 
+            0 0 25px rgba(255, 107, 107, 0.6),
+            0 0 50px rgba(255, 107, 107, 0.3);
+    }
+    25% { 
+        text-shadow: 
+            -3px 3px 30px rgba(255, 107, 107, 0.7),
+            3px -3px 55px rgba(255, 107, 107, 0.4);
+    }
+    50% { 
+        text-shadow: 
+            2px -2px 28px rgba(255, 107, 107, 0.6),
+            -2px 2px 52px rgba(255, 107, 107, 0.35);
+    }
+    75% { 
+        text-shadow: 
+            -1px -1px 26px rgba(255, 107, 107, 0.65),
+            1px 1px 48px rgba(255, 107, 107, 0.3);
+    }
+}
+
+@keyframes earthquakeYellowShadow {
+    0%, 100% { 
+        text-shadow: 
+            0 0 25px rgba(251, 191, 36, 0.6),
+            0 0 50px rgba(251, 191, 36, 0.3);
+    }
+    25% { 
+        text-shadow: 
+            -2px 2px 28px rgba(251, 191, 36, 0.7),
+            2px -2px 52px rgba(251, 191, 36, 0.4);
+    }
+    50% { 
+        text-shadow: 
+            3px -3px 30px rgba(251, 191, 36, 0.6),
+            -3px 3px 55px rgba(251, 191, 36, 0.35);
+    }
+    75% { 
+        text-shadow: 
+            -1px -1px 27px rgba(251, 191, 36, 0.65),
+            1px 1px 51px rgba(251, 191, 36, 0.3);
+    }
+}
+
+/* Hover effects - Intensify earthquake */
 .artistic-title:hover .letter {
-    animation: letterDance 0.5s ease-in-out infinite;
-    animation-delay: calc(var(--index) * 0.05s);
+    animation: earthquakeIntense 0.1s ease-in-out infinite !important;
+    filter: brightness(1.2) blur(0.5px);
 }
 
 .artistic-title .letter:hover {
-    transform: scale(1.2) rotate(15deg) !important;
-    filter: brightness(1.3);
+    animation: earthquakeIntense 0.08s ease-in-out infinite !important;
+    filter: brightness(1.5) blur(1px);
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+/* Epicenter effect - shake neighboring letters more */
+.artistic-title:has(.letter:hover) .letter {
+    animation-duration: 0.15s !important;
+}
+
+/* Add glow effect during intense shaking */
+.artistic-title:hover .coral {
+    text-shadow: 
+        0 0 35px rgba(255, 107, 107, 0.8),
+        0 0 70px rgba(255, 107, 107, 0.5),
+        2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.artistic-title:hover .yellow {
+    text-shadow: 
+        0 0 35px rgba(251, 191, 36, 0.8),
+        0 0 70px rgba(251, 191, 36, 0.5),
+        2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Letter dance animation */
 @keyframes letterDance {
     0%, 100% { transform: translateY(0) rotate(var(--rotation)); }
     50% { transform: translateY(-5px) rotate(calc(var(--rotation) * -1)); }
+}
+
+/* Earthquake Animations */
+@keyframes earthquakeX {
+    0% { transform: translateX(0); }
+    10% { transform: translateX(-2px); }
+    20% { transform: translateX(3px); }
+    30% { transform: translateX(-4px); }
+    40% { transform: translateX(2px); }
+    50% { transform: translateX(-3px); }
+    60% { transform: translateX(4px); }
+    70% { transform: translateX(-2px); }
+    80% { transform: translateX(3px); }
+    90% { transform: translateX(-1px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes earthquakeY {
+    0% { transform: translateY(0); }
+    15% { transform: translateY(-3px); }
+    25% { transform: translateY(2px); }
+    35% { transform: translateY(-4px); }
+    45% { transform: translateY(3px); }
+    55% { transform: translateY(-2px); }
+    65% { transform: translateY(4px); }
+    75% { transform: translateY(-3px); }
+    85% { transform: translateY(2px); }
+    95% { transform: translateY(-1px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes earthquakeRotate {
+    0% { transform: rotate(0deg); }
+    10% { transform: rotate(-1deg); }
+    20% { transform: rotate(2deg); }
+    30% { transform: rotate(-3deg); }
+    40% { transform: rotate(1deg); }
+    50% { transform: rotate(-2deg); }
+    60% { transform: rotate(3deg); }
+    70% { transform: rotate(-1deg); }
+    80% { transform: rotate(2deg); }
+    90% { transform: rotate(-1deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes earthquakeIntense {
+    0% { transform: translateX(0) translateY(0) rotate(0deg) scale(1); }
+    5% { transform: translateX(-5px) translateY(3px) rotate(-2deg) scale(1.02); }
+    10% { transform: translateX(4px) translateY(-4px) rotate(3deg) scale(0.98); }
+    15% { transform: translateX(-6px) translateY(2px) rotate(-4deg) scale(1.01); }
+    20% { transform: translateX(3px) translateY(-5px) rotate(2deg) scale(0.99); }
+    25% { transform: translateX(-4px) translateY(4px) rotate(-3deg) scale(1.02); }
+    30% { transform: translateX(5px) translateY(-3px) rotate(4deg) scale(0.98); }
+    35% { transform: translateX(-3px) translateY(5px) rotate(-2deg) scale(1.01); }
+    40% { transform: translateX(4px) translateY(-2px) rotate(3deg) scale(0.99); }
+    45% { transform: translateX(-5px) translateY(3px) rotate(-4deg) scale(1.02); }
+    50% { transform: translateX(2px) translateY(-4px) rotate(2deg) scale(1); }
+    55% { transform: translateX(-3px) translateY(2px) rotate(-3deg) scale(1.01); }
+    60% { transform: translateX(4px) translateY(-3px) rotate(4deg) scale(0.99); }
+    65% { transform: translateX(-2px) translateY(4px) rotate(-2deg) scale(1.02); }
+    70% { transform: translateX(3px) translateY(-2px) rotate(3deg) scale(0.98); }
+    75% { transform: translateX(-4px) translateY(3px) rotate(-4deg) scale(1.01); }
+    80% { transform: translateX(2px) translateY(-3px) rotate(2deg) scale(0.99); }
+    85% { transform: translateX(-3px) translateY(2px) rotate(-3deg) scale(1.02); }
+    90% { transform: translateX(2px) translateY(-2px) rotate(1deg) scale(1.01); }
+    95% { transform: translateX(-1px) translateY(1px) rotate(-1deg) scale(1); }
+    100% { transform: translateX(0) translateY(0) rotate(0deg) scale(1); }
+}
+
+@keyframes textShadowShake {
+    0%, 100% { text-shadow: 0 0 20px rgba(254, 243, 199, 0.3), 0 0 40px rgba(254, 243, 199, 0.2); }
+    25% { text-shadow: -2px 2px 20px rgba(254, 243, 199, 0.4), 2px -2px 40px rgba(254, 243, 199, 0.3); }
+    50% { text-shadow: 2px -2px 25px rgba(254, 243, 199, 0.3), -2px 2px 45px rgba(254, 243, 199, 0.2); }
+    75% { text-shadow: -1px -1px 20px rgba(254, 243, 199, 0.4), 1px 1px 40px rgba(254, 243, 199, 0.3); }
 }
 
 
@@ -697,4 +904,43 @@ body {
 
 .venue-name {
     animation: fadeInUp 1s ease-out, pulse 4s ease-in-out infinite 2s;
+}
+
+/* Accessibility - Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .artistic-title .letter {
+        animation: none !important;
+    }
+    
+    .artistic-title .coral {
+        animation: none !important;
+        text-shadow: 
+            0 0 25px rgba(255, 107, 107, 0.6),
+            0 0 50px rgba(255, 107, 107, 0.3);
+    }
+    
+    .artistic-title .yellow {
+        animation: none !important;
+        text-shadow: 
+            0 0 25px rgba(251, 191, 36, 0.6),
+            0 0 50px rgba(251, 191, 36, 0.3);
+    }
+    
+    .artistic-title .letter:not(.coral):not(.yellow) {
+        animation: none !important;
+        text-shadow: 
+            0 0 20px rgba(254, 243, 199, 0.3),
+            0 0 40px rgba(254, 243, 199, 0.2);
+    }
+    
+    .artistic-title:hover .letter {
+        animation: none !important;
+        filter: brightness(1.2);
+        transform: scale(1.05);
+    }
+    
+    /* Keep subtle hover effects without motion */
+    .artistic-title .letter {
+        transition: all 0.3s ease;
+    }
 }

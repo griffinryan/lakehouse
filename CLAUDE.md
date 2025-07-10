@@ -461,6 +461,217 @@ The Lakehouse Seattle firefly system creates an intimate, magical atmosphere tha
 4. **Living Environment**: Everything subtly animates
 5. **Interactive Magic**: Mouse/touch brings the scene to life
 
+## 🌊 Earthquake Typography System
+
+### Overview
+The Lakehouse Seattle title features an advanced earthquake animation system that creates a continuous, dynamic shaking effect on each letter. This system was designed to match the intense, festival-style aesthetic of the band names while maintaining the venue's unique character.
+
+### Font System Evolution
+- **Original**: 'Permanent Marker' cursive font with static rotations
+- **Updated**: 'Bebas Neue' condensed sans-serif matching band typography
+- **Weight**: 900 (Black) for maximum impact
+- **Transform**: scaleX(0.9) for compressed festival poster look
+- **Letter-spacing**: -0.04em for tight, impactful spacing
+
+### Animation Architecture
+
+#### Core Animation Types
+
+1. **earthquakeX** - Horizontal shake pattern
+   - Duration: 0.15s - 0.25s per letter
+   - 11 keyframe positions
+   - Amplitude: -4px to +4px
+   - Creates side-to-side vibration
+
+2. **earthquakeY** - Vertical shake pattern
+   - Duration: 0.17s - 0.24s per letter
+   - 11 keyframe positions
+   - Amplitude: -4px to +4px
+   - Creates up-down tremor effect
+
+3. **earthquakeRotate** - Rotational wobble
+   - Duration: 0.26s - 0.35s per letter
+   - Rotation range: -4deg to +4deg
+   - Adds dimensional instability
+
+4. **earthquakeIntense** - Compound chaos animation
+   - Combines X, Y, rotation, and scale
+   - 21 keyframe positions
+   - Scale variation: 0.98 to 1.02
+   - Maximum amplitude: ±6px translate, ±4deg rotate
+   - Used for hover states and high-energy letters
+
+5. **textShadowShake** - Shadow vibration
+   - Animates text-shadow positions
+   - Creates depth perception during shake
+   - Synchronized with letter movement
+
+#### Letter-Specific Implementation
+
+Each letter has unique animation combinations:
+
+```css
+.letter-l: earthquakeX (0.2s) + earthquakeY (0.15s reverse) + earthquakeRotate (0.3s)
+.letter-a: earthquakeY (0.18s) + earthquakeX (0.25s reverse) + textShadowShake (0.4s)
+.letter-k: earthquakeIntense (0.35s, 0.05s delay)
+.letter-e: earthquakeX (0.22s reverse) + earthquakeRotate (0.28s)
+... (each letter has custom timing and combinations)
+```
+
+**Design Principles**:
+- No two letters share identical animation parameters
+- Reverse animations create counter-movement
+- Staggered delays prevent synchronization
+- Prime number durations (0.17s, 0.19s, 0.23s) avoid harmonic patterns
+
+### Interactive Behavior System
+
+#### Hover States
+
+1. **Global Title Hover**:
+   - All letters switch to earthquakeIntense (0.1s)
+   - Brightness: 120%
+   - Blur: 0.5px (motion blur effect)
+
+2. **Individual Letter Hover**:
+   - Ultra-intense shake (0.08s)
+   - Brightness: 150%
+   - Blur: 1px
+   - Scale: 1.1
+   - Z-index elevation
+
+3. **Epicenter Effect**:
+   - CSS `:has()` selector detects hovered letter
+   - All letters increase shake speed (0.15s)
+   - Creates "ripple" sensation from hover point
+
+#### Color-Specific Animations
+
+**Coral Letters** (#ff6b6b):
+- Custom earthquakeCoralShadow animation
+- Shadow movement: ±3px offset
+- Glow intensity variation: 0.6 - 0.7 opacity
+- 0.6s cycle time
+
+**Yellow Letters** (#fbbf24):
+- Custom earthquakeYellowShadow animation
+- Reverse direction from coral
+- Shadow movement: ±3px offset
+- 0.7s cycle time (async with coral)
+
+**Cream Letters** (#fef3c7):
+- Standard textShadowShake
+- Subtler shadow movement
+- 0.5s cycle time
+
+### Creative Spacing & Transform System
+
+#### Dynamic Letter Spacing
+```css
+.letter-l, .letter-s2 { margin-right: -0.04em; }
+.letter-a, .letter-e3 { margin-left: -0.03em; }
+.letter-k, .letter-t { margin-right: -0.05em; }
+```
+
+#### Scale Variations
+```css
+.letter-h, .letter-l2 { transform: scaleX(0.95); }  // Compressed
+.letter-o, .letter-a2 { transform: scaleX(1.05); }  // Expanded
+```
+
+These micro-adjustments create organic, hand-lettered feeling despite using a geometric font.
+
+### Performance Optimizations
+
+1. **GPU Acceleration**:
+   - All animations use `transform` properties
+   - Text-shadow animations kept separate
+   - No layout-triggering properties animated
+
+2. **Animation Efficiency**:
+   - Short duration cycles (0.1s - 0.4s)
+   - Infinite loops with no pause frames
+   - Hardware-accelerated blur effects
+
+3. **Memory Management**:
+   - Single animation instance per letter
+   - No dynamic animation creation
+   - CSS-only implementation (no JS overhead)
+
+### Accessibility Features
+
+#### Reduced Motion Support
+```css
+@media (prefers-reduced-motion: reduce) {
+    /* All animations disabled */
+    /* Static shadows preserved */
+    /* Smooth transitions on hover */
+    /* Scale effects maintained without motion */
+}
+```
+
+Users with motion sensitivity experience:
+- No earthquake animations
+- Preserved color and glow effects
+- Gentle hover transitions (0.3s ease)
+- Maintained visual hierarchy
+
+### Technical Implementation Details
+
+#### Animation Stacking
+Multiple animations on single elements using comma separation:
+```css
+animation: earthquakeX 0.2s ease-in-out infinite,
+           earthquakeY 0.15s ease-in-out infinite reverse,
+           earthquakeRotate 0.3s ease-in-out infinite;
+```
+
+#### Transform Origin
+All letters use `transform-origin: center bottom` to create ground-anchored shake effect.
+
+#### Composite Animations
+The earthquakeIntense animation uses compound transforms:
+```css
+transform: translateX(-5px) translateY(3px) rotate(-2deg) scale(1.02);
+```
+
+This creates more complex, realistic motion patterns.
+
+### Visual Impact & Philosophy
+
+The earthquake system transforms static typography into a living, breathing element that:
+
+1. **Matches Festival Aesthetic**: Intense, energetic, impossible to ignore
+2. **Creates Urgency**: Constant motion suggests excitement and immediacy
+3. **Maintains Readability**: Despite chaos, text remains legible
+4. **Provides Interactivity**: Responds to user engagement
+5. **Establishes Hierarchy**: Different shake intensities guide attention
+
+### Future Enhancement Possibilities
+
+1. **Audio Reactivity**: Sync shake intensity to music
+2. **Time-based Variations**: Different shake patterns for day/night
+3. **Weather Integration**: Increase shake during "storms"
+4. **Particle Effects**: Add debris/dust during intense shakes
+5. **Mobile Gestures**: Shake intensity based on device motion
+
+### Debug & Testing
+
+Browser Console Commands:
+```javascript
+// Pause all animations
+document.querySelectorAll('.letter').forEach(l => l.style.animationPlayState = 'paused');
+
+// Resume animations
+document.querySelectorAll('.letter').forEach(l => l.style.animationPlayState = 'running');
+
+// Test specific animation
+document.querySelector('.letter-k').style.animation = 'earthquakeIntense 0.05s infinite';
+
+// Check computed styles
+getComputedStyle(document.querySelector('.letter-a')).animation;
+```
+
 ## 🚀 Quick Reference
 
 ### Common Tasks
