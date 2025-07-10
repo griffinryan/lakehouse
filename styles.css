@@ -96,7 +96,7 @@ body {
 }
 
 .event-details {
-    animation: fadeInUp 1s ease-out 0.3s both;
+    animation: fadeInUp 1s ease-out 0.6s both;
     margin-bottom: 3rem;
 }
 
@@ -188,7 +188,7 @@ body {
 .atmosphere {
     position: absolute;
     bottom: 2rem;
-    animation: fadeInUp 1s ease-out 0.6s both;
+    animation: fadeInUp 1s ease-out 0.8s both;
 }
 
 .atmosphere p {
@@ -202,7 +202,7 @@ body {
 .band-lineup {
     width: 33%;
     margin: 3rem auto;
-    animation: fadeInUp 1s ease-out 0.5s both;
+    animation: fadeInUp 1s ease-out 0.4s both;
 }
 
 .lineup-row {
@@ -411,6 +411,84 @@ body {
     }
 }
 
+/* Event Date Section */
+.event-date {
+    margin: 2rem auto 3rem;
+    animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+.date-display {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3em;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    text-transform: uppercase;
+    font-weight: 900;
+    transform: rotate(-2deg) skewY(2deg);
+    transition: all 0.3s ease;
+}
+
+.date-part {
+    display: inline-block;
+}
+
+.date-part.month {
+    font-family: 'Anton', sans-serif;
+    color: var(--cream);
+    transform: scaleX(0.9);
+    letter-spacing: -0.02em;
+}
+
+.date-part.day {
+    font-family: 'Black Ops One', sans-serif;
+    transform: scaleX(1.1) rotate(3deg);
+    font-size: 1.2em;
+    position: relative;
+    z-index: 2;
+}
+
+.date-part.year {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--text-secondary);
+    transform: scaleX(0.85);
+    font-size: 0.9em;
+}
+
+/* Yellow highlight variant */
+.highlight-yellow {
+    color: var(--sunset-gold);
+    text-shadow: 
+        0 0 30px rgba(251, 191, 36, 0.6),
+        0 0 60px rgba(251, 191, 36, 0.3);
+}
+
+/* Hover effect */
+.date-display:hover {
+    transform: rotate(-2deg) skewY(2deg) scale(1.05);
+}
+
+.date-display:hover .date-part.day {
+    color: var(--sunset-orange);
+    text-shadow: 
+        0 0 40px rgba(245, 158, 11, 0.8),
+        0 0 80px rgba(245, 158, 11, 0.4);
+    transform: scaleX(1.15) rotate(5deg);
+}
+
+/* Subtle glow animation */
+@keyframes dateGlow {
+    0%, 100% { 
+        filter: brightness(1);
+    }
+    50% { 
+        filter: brightness(1.1);
+    }
+}
+
+.date-part.day {
+    animation: dateGlow 3s ease-in-out infinite;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .timing {
@@ -491,6 +569,16 @@ body {
     
     .clash-at-demonhead .small-word:first-child {
         transform: rotate(-10deg) translateY(0.1em);
+    }
+    
+    /* Event Date Mobile Styles */
+    .date-display {
+        font-size: clamp(2rem, 10vw, 3rem);
+        transform: none;
+    }
+    
+    .date-display:hover {
+        transform: scale(1.02);
     }
 }
 
