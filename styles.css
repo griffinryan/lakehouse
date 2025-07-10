@@ -139,14 +139,35 @@ body {
 }
 
 .artistic-title .letter:hover {
-    transform: scale(1.2) rotate(15deg) !important;
+    animation: lazyRotate 2s ease-in-out infinite;
     filter: brightness(1.3);
+    transform-origin: center;
+    z-index: 10;
 }
 
 /* Letter dance animation */
 @keyframes letterDance {
     0%, 100% { transform: translateY(0) rotate(var(--rotation)); }
     50% { transform: translateY(-5px) rotate(calc(var(--rotation) * -1)); }
+}
+
+/* Lazy rotation animation for individual letters */
+@keyframes lazyRotate {
+    0% { 
+        transform: rotate(0deg) scale(1);
+    }
+    25% { 
+        transform: rotate(15deg) scale(1.15);
+    }
+    50% { 
+        transform: rotate(0deg) scale(1.2);
+    }
+    75% { 
+        transform: rotate(-15deg) scale(1.15);
+    }
+    100% { 
+        transform: rotate(0deg) scale(1);
+    }
 }
 
 
@@ -433,6 +454,7 @@ body {
 .band-name:hover {
     transform: scale(1.05);
     z-index: 10;
+    animation: cosineWiggle 2s ease-in-out infinite;
 }
 
 .band-name:hover .band-word:not(.small-word) {
@@ -447,27 +469,57 @@ body {
 
 /* Individual band hover overrides */
 .sex-bob-omb:hover {
-    transform: skewY(-5deg) scaleX(0.9) scale(1.05);
+    animation: cosineWiggle 2s ease-in-out infinite, sexBobOmbWiggle 2s ease-in-out infinite;
+}
+
+@keyframes sexBobOmbWiggle {
+    0%, 100% { transform: skewY(-5deg) scaleX(0.9) scale(1.05) translateY(0); }
+    50% { transform: skewY(-5deg) scaleX(0.9) scale(1.05) translateY(-8px); }
 }
 
 .crash-and-boys:hover {
-    transform: skewY(3deg) scaleX(0.75) scale(1.05);
+    animation: cosineWiggle 2s ease-in-out infinite, crashAndBoysWiggle 2s ease-in-out infinite;
+}
+
+@keyframes crashAndBoysWiggle {
+    0%, 100% { transform: skewY(3deg) scaleX(0.75) scale(1.05) translateY(0); }
+    50% { transform: skewY(3deg) scaleX(0.75) scale(1.05) translateY(-8px); }
 }
 
 .clash-at-demonhead:hover {
-    transform: skewY(-3deg) rotate(-2deg) scaleX(0.65) scale(1.05);
+    animation: cosineWiggle 2s ease-in-out infinite, clashAtDemonheadWiggle 2s ease-in-out infinite;
+}
+
+@keyframes clashAtDemonheadWiggle {
+    0%, 100% { transform: skewY(-3deg) rotate(-2deg) scaleX(0.65) scale(1.05) translateY(0); }
+    50% { transform: skewY(-3deg) rotate(-2deg) scaleX(0.65) scale(1.05) translateY(-8px); }
 }
 
 .single-bodies:hover {
-    transform: skewY(4deg) scaleX(0.85) scale(1.05);
+    animation: cosineWiggle 2s ease-in-out infinite, singleBodiesWiggle 2s ease-in-out infinite;
+}
+
+@keyframes singleBodiesWiggle {
+    0%, 100% { transform: skewY(4deg) scaleX(0.85) scale(1.05) translateY(0); }
+    50% { transform: skewY(4deg) scaleX(0.85) scale(1.05) translateY(-8px); }
 }
 
 .little-dog:hover {
-    transform: rotate(-5deg) skewY(-2deg) scaleX(0.95) scale(1.05);
+    animation: cosineWiggle 2s ease-in-out infinite, littleDogWiggle 2s ease-in-out infinite;
+}
+
+@keyframes littleDogWiggle {
+    0%, 100% { transform: rotate(-5deg) skewY(-2deg) scaleX(0.95) scale(1.05) translateY(0); }
+    50% { transform: rotate(-5deg) skewY(-2deg) scaleX(0.95) scale(1.05) translateY(-8px); }
 }
 
 .betty-black:hover {
-    transform: rotate(3deg) skewY(2deg) scaleX(0.9) scale(1.05);
+    animation: cosineWiggle 2s ease-in-out infinite, bettyBlackWiggle 2s ease-in-out infinite;
+}
+
+@keyframes bettyBlackWiggle {
+    0%, 100% { transform: rotate(3deg) skewY(2deg) scaleX(0.9) scale(1.05) translateY(0); }
+    50% { transform: rotate(3deg) skewY(2deg) scaleX(0.9) scale(1.05) translateY(-8px); }
 }
 
 
@@ -692,6 +744,25 @@ body {
     }
     50% {
         opacity: 0.95;
+    }
+}
+
+/* Cosine-like wiggle animation for bands */
+@keyframes cosineWiggle {
+    0% { 
+        transform: translateY(0);
+    }
+    25% { 
+        transform: translateY(-5px);
+    }
+    50% { 
+        transform: translateY(0);
+    }
+    75% { 
+        transform: translateY(5px);
+    }
+    100% { 
+        transform: translateY(0);
     }
 }
 
