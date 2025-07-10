@@ -71,13 +71,84 @@ body {
     text-transform: uppercase;
 }
 
-.lake {
+/* Artistic Title Styling */
+.artistic-title {
+    font-family: 'Permanent Marker', cursive;
+    font-weight: 400;
+    letter-spacing: 0.05em;
     display: inline-block;
+    margin-bottom: 2rem;
 }
 
-.house {
+.artistic-title .letter {
     display: inline-block;
+    transition: all 0.3s ease;
+    position: relative;
 }
+
+.artistic-title .letter-space {
+    display: inline-block;
+    width: 0.3em;
+}
+
+/* Individual letter rotations for artistic effect */
+.letter-l { transform: rotate(-8deg) translateY(3px); }
+.letter-a { transform: rotate(12deg) translateY(-2px); }
+.letter-k { transform: rotate(-5deg) translateY(4px); }
+.letter-e { transform: rotate(7deg) translateY(-3px); }
+.letter-h { transform: rotate(-10deg) translateY(2px); }
+.letter-o { transform: rotate(4deg) translateY(-1px); }
+.letter-u { transform: rotate(-6deg) translateY(3px); }
+.letter-s { transform: rotate(9deg) translateY(-4px); }
+.letter-e2 { transform: rotate(-3deg) translateY(1px); }
+.letter-s2 { transform: rotate(11deg) translateY(-2px); }
+.letter-e3 { transform: rotate(-7deg) translateY(4px); }
+.letter-a2 { transform: rotate(5deg) translateY(-3px); }
+.letter-t { transform: rotate(-9deg) translateY(2px); }
+.letter-t2 { transform: rotate(6deg) translateY(-1px); }
+.letter-l2 { transform: rotate(-4deg) translateY(3px); }
+.letter-e4 { transform: rotate(8deg) translateY(-2px); }
+
+/* Color highlights */
+.artistic-title .coral {
+    color: var(--coral-pink);
+    text-shadow: 
+        0 0 25px rgba(255, 107, 107, 0.6),
+        0 0 50px rgba(255, 107, 107, 0.3);
+}
+
+.artistic-title .yellow {
+    color: var(--sunset-gold);
+    text-shadow: 
+        0 0 25px rgba(251, 191, 36, 0.6),
+        0 0 50px rgba(251, 191, 36, 0.3);
+}
+
+/* Base color for non-highlighted letters */
+.artistic-title .letter:not(.coral):not(.yellow) {
+    color: var(--cream);
+    text-shadow: 
+        0 0 20px rgba(254, 243, 199, 0.3),
+        0 0 40px rgba(254, 243, 199, 0.2);
+}
+
+/* Hover effects */
+.artistic-title:hover .letter {
+    animation: letterDance 0.5s ease-in-out infinite;
+    animation-delay: calc(var(--index) * 0.05s);
+}
+
+.artistic-title .letter:hover {
+    transform: scale(1.2) rotate(15deg) !important;
+    filter: brightness(1.3);
+}
+
+/* Letter dance animation */
+@keyframes letterDance {
+    0%, 100% { transform: translateY(0) rotate(var(--rotation)); }
+    50% { transform: translateY(-5px) rotate(calc(var(--rotation) * -1)); }
+}
+
 
 .location {
     font-size: clamp(2rem, 6vw, 3.5rem);
@@ -352,13 +423,6 @@ body {
     transform: scaleX(0.95);
 }
 
-.torpoise {
-    transform: rotate(-4deg) skewY(3deg);
-}
-
-.torpoise .band-word {
-    font-family: 'Anton', sans-serif;
-}
 
 /* Adjust spacing between transformed elements */
 .band-name > * + * {
@@ -406,9 +470,6 @@ body {
     transform: rotate(3deg) skewY(2deg) scaleX(0.9) scale(1.05);
 }
 
-.torpoise:hover {
-    transform: rotate(-4deg) skewY(3deg) scale(1.05);
-}
 
 /* Hover ripple effect */
 .band-name::after {
@@ -533,6 +594,19 @@ body {
         font-size: clamp(2.5rem, 15vw, 4rem);
     }
     
+    /* Artistic title mobile adjustments */
+    .artistic-title {
+        font-size: clamp(2rem, 12vw, 3.5rem);
+    }
+    
+    .artistic-title .letter {
+        transform: none !important; /* Simplify on mobile */
+    }
+    
+    .artistic-title .letter:hover {
+        transform: scale(1.1) !important;
+    }
+    
     .location {
         font-size: clamp(1.5rem, 8vw, 2.5rem);
     }
@@ -574,8 +648,7 @@ body {
     .clash-at-demonhead,
     .single-bodies,
     .little-dog,
-    .betty-black,
-    .torpoise {
+    .betty-black {
         transform: none;
     }
     
@@ -584,8 +657,7 @@ body {
     .clash-at-demonhead:hover,
     .single-bodies:hover,
     .little-dog:hover,
-    .betty-black:hover,
-    .torpoise:hover {
+    .betty-black:hover {
         transform: scale(1.02);
     }
     
