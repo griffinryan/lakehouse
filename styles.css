@@ -145,6 +145,15 @@ body {
     z-index: 10;
 }
 
+/* Swirl animation transition */
+.swirling {
+    transition: opacity 0.3s ease-out;
+}
+
+.band-name:hover {
+    filter: brightness(1.1);
+}
+
 /* Letter dance animation */
 @keyframes letterDance {
     0%, 100% { transform: translateY(0) rotate(var(--rotation)); }

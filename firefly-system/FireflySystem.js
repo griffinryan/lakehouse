@@ -5,6 +5,7 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { Firefly } from './Firefly.js';
 import { SwirlingBackground } from './SwirlingBackground.js';
 import { Tree } from './Tree.js';
+import { TextSwirl } from './TextSwirl.js';
 
 export class FireflySystem {
     constructor(container = document.body) {
@@ -19,6 +20,7 @@ export class FireflySystem {
         this.tree = null;
         this.backgroundScene = null;
         this.backgroundCamera = null;
+        this.textSwirl = null;
         
         // Configuration
         this.config = {
@@ -39,6 +41,7 @@ export class FireflySystem {
         this.createBackground();
         this.createTree();
         this.createFireflies();
+        this.createTextSwirl();
         this.setupEventListeners();
         this.animate();
     }
@@ -172,6 +175,21 @@ export class FireflySystem {
         }
     }
     
+    createTextSwirl() {
+        this.textSwirl = new TextSwirl(this.scene, this.camera);
+        
+        // Configure text swirl settings
+        this.textSwirl.config = {
+            ...this.textSwirl.config,
+            particlesPerLetter: 15,
+            swirlRadius: 80,
+            swirlSpeed: 1.5,
+            swirlDuration: 2.5,
+            particleSize: 2.5,
+            glowIntensity: 2.5
+        };
+    }
+    
     updateFireflies(deltaTime) {
         this.fireflies.forEach(firefly => {
             firefly.update(deltaTime, this.mouseWorld, this.config.mouseRadius, this.config.mouseForce);
@@ -200,6 +218,11 @@ export class FireflySystem {
         this.updateBackground(deltaTime);
         this.updateTree(deltaTime);
         this.updateFireflies(deltaTime);
+        
+        // Update text swirl
+        if (this.textSwirl) {
+            this.textSwirl.update(deltaTime);
+        }
         
         // Render in layers
         this.renderer.clear();
@@ -271,6 +294,7 @@ export class FireflySystem {
         this.fireflies.forEach(firefly => firefly.destroy());
         if (this.background) this.background.dispose();
         if (this.tree) this.tree.dispose();
+        if (this.textSwirl) this.textSwirl.destroy();
         this.renderer.dispose();
         this.composer.dispose();
     }
