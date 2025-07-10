@@ -20,6 +20,7 @@
     "live-server": "^1.2.2"
   },
   "dependencies": {
+    "lakehouse-seattle": ".",
     "three": "^0.178.0"
   }
 }
