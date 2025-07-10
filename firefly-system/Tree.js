@@ -11,11 +11,11 @@ export class Tree {
     }
     
     create() {
-        // Tree parameters
-        const trunkHeight = 80;
-        const trunkRadius = 8;
-        const branchingFactor = 0.7;
-        const branchAngleVariation = Math.PI / 6;
+        // Tree parameters - larger trunk and branches
+        const trunkHeight = 200;
+        const trunkRadius = 25;
+        const branchingFactor = 0.75;  // Slightly higher for better branch coverage
+        const branchAngleVariation = Math.PI / 5;  // Wider angle for more spread
         
         // Create trunk
         const trunkGeometry = new THREE.CylinderGeometry(
@@ -25,10 +25,10 @@ export class Tree {
             8
         );
         const trunkMaterial = new THREE.MeshPhongMaterial({
-            color: 0x4a3426,
-            emissive: 0x2a1a10,
-            emissiveIntensity: 0.2,
-            shininess: 10
+            color: 0x6B4423,  // Muted chocolate brown
+            emissive: 0x4a2f1a,  // Warmer brown glow
+            emissiveIntensity: 0.3,
+            shininess: 15
         });
         
         const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
@@ -39,15 +39,15 @@ export class Tree {
         this.generateBranches(
             new THREE.Vector3(0, trunkHeight, 0),
             new THREE.Vector3(0, 1, 0),
-            trunkRadius * 0.7,
-            trunkHeight * 0.4,
+            trunkRadius * 0.8,  // Thicker initial branches
+            trunkHeight * 0.5,  // Longer branches for better coverage
             3,
             branchingFactor,
             branchAngleVariation
         );
         
-        // Position tree at bottom of scene
-        this.group.position.set(0, -200, -50);
+        // Position tree more prominently in scene
+        this.group.position.set(20, -180, -80);  // Slightly off-center for dynamic composition
     }
     
     generateBranches(position, direction, radius, length, depth, branchingFactor, angleVariation) {
@@ -62,9 +62,9 @@ export class Tree {
         );
         
         const branchMaterial = new THREE.MeshPhongMaterial({
-            color: depth > 1 ? 0x4a3426 : 0x3a2416,
-            emissive: 0x2a1a10,
-            emissiveIntensity: 0.1
+            color: depth > 1 ? 0x6B4423 : 0x5a3a1f,  // Chocolate brown with depth variation
+            emissive: 0x3a2515,
+            emissiveIntensity: 0.15
         });
         
         const branch = new THREE.Mesh(branchGeometry, branchMaterial);
@@ -110,7 +110,7 @@ export class Tree {
                 endPosition,
                 newDirection,
                 radius * branchingFactor,
-                length * (0.6 + Math.random() * 0.3),
+                length * (0.7 + Math.random() * 0.3),  // Longer child branches
                 depth - 1,
                 branchingFactor,
                 angleVariation * 1.2

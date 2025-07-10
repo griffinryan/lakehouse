@@ -27,6 +27,8 @@ export class Firefly {
         this.blinkIntensity = 1;
         this.isBlinking = true;
         this.targetIntensity = 1;
+        this.burstMode = false;
+        this.burstTimer = 0;
         
         // Create material with custom shaders
         this.material = new THREE.ShaderMaterial({
@@ -34,7 +36,7 @@ export class Firefly {
                 time: { value: 0 },
                 color: { value: this.options.color },
                 intensity: { value: 1 },
-                glowStrength: { value: 3.0 },
+                glowStrength: { value: 5.0 },  // Increased for more explosive glow
                 coreSize: { value: 0.3 }
             },
             vertexShader: fireflyVertexShader,
@@ -47,7 +49,7 @@ export class Firefly {
         // Create mesh
         this.mesh = new THREE.Mesh(geometry, this.material);
         this.mesh.position.copy(this.options.position);
-        this.mesh.scale.setScalar(this.options.scale * 2);
+        this.mesh.scale.setScalar(this.options.scale * 2.5);  // Larger fireflies for more impact
         
         // Add subtle random rotation
         this.mesh.rotation.set(
@@ -115,21 +117,36 @@ export class Firefly {
             // Use sine wave for smooth transitions
             const baseIntensity = Math.sin(blinkPhase) * 0.5 + 0.5;
             
-            // Add occasional bright flashes
-            if (Math.random() < 0.002) {
-                this.targetIntensity = 1.5;
-            } else if (Math.random() < 0.005) {
-                this.targetIntensity = 0.1;
+            // Add explosive burst effects
+            if (!this.burstMode && Math.random() < 0.004) {
+                this.burstMode = true;
+                this.burstTimer = 0;
+                this.targetIntensity = 2.0;  // Explosive brightness
+            } else if (this.burstMode) {
+                this.burstTimer += deltaTime;
+                if (this.burstTimer < 0.2) {
+                    // Rapid strobe during burst
+                    this.targetIntensity = 2.0 + Math.sin(this.burstTimer * 50) * 0.5;
+                } else if (this.burstTimer < 0.5) {
+                    // Fade out
+                    this.targetIntensity = 2.0 * (1.0 - (this.burstTimer - 0.2) / 0.3);
+                } else {
+                    this.burstMode = false;
+                    this.targetIntensity = baseIntensity;
+                }
+            } else if (Math.random() < 0.008) {
+                this.targetIntensity = 0.1;  // Occasional dim
             } else {
-                this.targetIntensity = baseIntensity;
+                this.targetIntensity = baseIntensity * (0.8 + Math.random() * 0.4);
             }
             
-            // Smooth transition to target intensity
-            this.blinkIntensity += (this.targetIntensity - this.blinkIntensity) * deltaTime * 5;
+            // Smooth transition to target intensity with variable speed
+            const transitionSpeed = this.burstMode ? 15 : 5;
+            this.blinkIntensity += (this.targetIntensity - this.blinkIntensity) * deltaTime * transitionSpeed;
         }
         
-        // Clamp intensity
-        this.blinkIntensity = Math.max(0.1, Math.min(1.5, this.blinkIntensity));
+        // Clamp intensity with higher maximum for explosiveness
+        this.blinkIntensity = Math.max(0.1, Math.min(2.5, this.blinkIntensity));
     }
     
     updateMouseInteraction(mousePosition, mouseRadius, mouseForce, deltaTime) {
@@ -152,8 +169,14 @@ export class Firefly {
             this.velocity.add(repulsionForce);
             this.velocity.add(swirlVector);
             
-            // Increase brightness when near mouse
-            this.blinkIntensity = Math.min(this.blinkIntensity + force * 0.5, 1.5);
+            // Dramatically increase brightness when near mouse
+            this.blinkIntensity = Math.min(this.blinkIntensity + force * 1.0, 2.5);
+            
+            // Trigger burst mode occasionally when interacting
+            if (!this.burstMode && Math.random() < force * 0.02) {
+                this.burstMode = true;
+                this.burstTimer = 0;
+            }
         }
     }
     

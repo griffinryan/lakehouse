@@ -22,7 +22,7 @@ export class FireflySystem {
         
         // Configuration
         this.config = {
-            fireflyCount: 200,
+            fireflyCount: 250,  // More fireflies for denser effect
             fireflyScale: 1,
             mouseRadius: 200,
             mouseForce: 0.5,
@@ -30,9 +30,9 @@ export class FireflySystem {
             fogColor: new THREE.Color(0x0a0a2e),
             fogNear: 1,
             fogFar: 1000,
-            bloomStrength: 2.5,
-            bloomRadius: 0.8,
-            bloomThreshold: 0.1
+            bloomStrength: 4.0,  // Increased for more explosive visual impact
+            bloomRadius: 1.2,    // Wider bloom spread
+            bloomThreshold: 0.05  // Lower threshold to capture more light
         };
         
         this.init();
@@ -59,7 +59,8 @@ export class FireflySystem {
             0.1,
             1000
         );
-        this.camera.position.z = 400;
+        this.camera.position.set(-50, 50, 350);  // Adjusted to better frame the larger tree
+        this.camera.lookAt(0, 0, 0);
         
         // Renderer setup
         this.renderer = new THREE.WebGLRenderer({
@@ -69,7 +70,7 @@ export class FireflySystem {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        this.renderer.toneMappingExposure = 1.5;
+        this.renderer.toneMappingExposure = 1.8;  // Increased exposure for brighter fireflies
         this.renderer.autoClear = false;
         
         // Replace existing canvas if it exists
@@ -95,13 +96,18 @@ export class FireflySystem {
         this.composer.addPass(bloomPass);
         
         // Ambient light for subtle illumination
-        const ambientLight = new THREE.AmbientLight(0x0a0a2e, 0.1);
+        const ambientLight = new THREE.AmbientLight(0x1a1a3e, 0.15);  // Slightly brighter ambient
         this.scene.add(ambientLight);
         
         // Add directional light for tree
-        const directionalLight = new THREE.DirectionalLight(0x4a6fa5, 0.3);
+        const directionalLight = new THREE.DirectionalLight(0x5a7fb5, 0.4);  // Stronger light for the tree
         directionalLight.position.set(50, 100, 50);
         this.scene.add(directionalLight);
+        
+        // Add rim light for dramatic effect
+        const rimLight = new THREE.DirectionalLight(0x8090a0, 0.2);
+        rimLight.position.set(-100, 50, -50);
+        this.scene.add(rimLight);
     }
     
     createBackground() {
@@ -127,16 +133,16 @@ export class FireflySystem {
                 const spawnPoint = treeSpawnPoints[Math.floor(Math.random() * treeSpawnPoints.length)];
                 position = spawnPoint.clone();
                 position.add(new THREE.Vector3(
-                    (Math.random() - 0.5) * 50,
-                    (Math.random() - 0.5) * 50,
-                    (Math.random() - 0.5) * 50
+                    (Math.random() - 0.5) * 80,  // Wider spread around tree
+                    (Math.random() - 0.5) * 80,
+                    (Math.random() - 0.5) * 60
                 ));
             } else {
                 // Rest spawn randomly in scene
                 position = new THREE.Vector3(
-                    (Math.random() - 0.5) * 800,
-                    (Math.random() - 0.5) * 600,
-                    (Math.random() - 0.5) * 400
+                    (Math.random() - 0.5) * 900,  // Wider scene distribution
+                    (Math.random() - 0.5) * 700,
+                    (Math.random() - 0.5) * 500
                 );
             }
             

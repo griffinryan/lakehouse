@@ -36,19 +36,29 @@ export const fireflyFragmentShader = `
         float coreGlow = 1.0 - smoothstep(0.0, coreSize, dist);
         float outerGlow = 1.0 - smoothstep(coreSize, 1.0, dist);
         
-        // Combine core and outer glow
-        float glow = coreGlow * 2.0 + outerGlow * glowStrength;
+        // Combine core and outer glow with enhanced brightness
+        float glow = coreGlow * 3.5 + outerGlow * glowStrength * 1.5;
         
-        // Add subtle pulsing
-        float pulse = sin(time * 3.0) * 0.1 + 0.9;
-        glow *= pulse;
+        // Add dramatic pulsing with multiple frequencies
+        float pulse1 = sin(time * 3.0) * 0.2 + 0.8;
+        float pulse2 = sin(time * 7.0 + 1.57) * 0.15 + 0.85;
+        float burst = max(0.0, sin(time * 15.0)) * 0.5;
+        glow *= pulse1 * pulse2 + burst;
         
-        // Apply intensity and create HDR-ready color
-        vec3 glowColor = color * glow * intensity;
+        // Apply intensity with enhanced HDR-ready color
+        vec3 glowColor = color * glow * intensity * 1.5;
         
-        // Add slight color variation based on intensity
+        // Add corona effect for extra luminosity
+        float corona = pow(outerGlow, 0.5) * intensity * 0.5;
+        glowColor += color * corona;
+        
+        // Add dynamic color variation based on intensity
         if (intensity > 1.0) {
-            glowColor += vec3(0.2, 0.1, 0.0) * (intensity - 1.0);
+            glowColor += vec3(0.3, 0.15, 0.05) * pow(intensity - 1.0, 1.5);
+            // Add white hot core for very bright fireflies
+            if (intensity > 1.3) {
+                glowColor += vec3(0.5, 0.4, 0.3) * (intensity - 1.3);
+            }
         }
         
         // Soft edge fade
@@ -96,12 +106,18 @@ export const instancedFireflyFragmentShader = `
         float coreGlow = 1.0 - smoothstep(0.0, coreSize, dist);
         float outerGlow = 1.0 - smoothstep(coreSize, 1.0, dist);
         
-        float glow = coreGlow * 2.0 + outerGlow * glowStrength;
+        float glow = coreGlow * 3.5 + outerGlow * glowStrength * 1.5;
         
-        vec3 glowColor = vColor * glow * vIntensity;
+        vec3 glowColor = vColor * glow * vIntensity * 1.5;
+        
+        float corona = pow(outerGlow, 0.5) * vIntensity * 0.5;
+        glowColor += vColor * corona;
         
         if (vIntensity > 1.0) {
-            glowColor += vec3(0.2, 0.1, 0.0) * (vIntensity - 1.0);
+            glowColor += vec3(0.3, 0.15, 0.05) * pow(vIntensity - 1.0, 1.5);
+            if (vIntensity > 1.3) {
+                glowColor += vec3(0.5, 0.4, 0.3) * (vIntensity - 1.3);
+            }
         }
         
         float alpha = outerGlow * vIntensity;
