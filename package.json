@@ -4,8 +4,10 @@
   "description": "An intimate live set series - Lakehouse Seattle",
   "main": "index.html",
   "scripts": {
-    "start": "live-server --port=8080 --host=localhost",
-    "dev": "live-server --port=8080 --host=localhost",
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "serve": "npx serve -s . -p 8080"
   },
   "keywords": [
@@ -17,7 +19,9 @@
   "author": "Lakehouse Seattle",
   "license": "ISC",
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "live-server": "^1.2.2",
+    "terser": "^5.43.1",
+    "vite": "^7.0.3"
   },
   "dependencies": {
     "lakehouse-seattle": ".",

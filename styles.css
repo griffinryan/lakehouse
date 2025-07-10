@@ -59,23 +59,23 @@ body {
 
 .venue-name {
     font-size: clamp(3rem, 10vw, 6rem);
+    font-family: 'Bebas Neue', sans-serif;
     font-weight: 900;
     letter-spacing: -0.02em;
     line-height: 0.9;
     margin-bottom: 0.5rem;
-    text-shadow: 0 0 40px rgba(251, 191, 36, 0.3);
+    color: var(--coral-pink);
+    text-shadow: 
+        0 0 30px rgba(255, 107, 107, 0.5),
+        0 0 60px rgba(255, 107, 107, 0.3);
+    text-transform: uppercase;
 }
 
 .lake {
-    background: linear-gradient(45deg, var(--sunset-gold), var(--sunset-orange));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
     display: inline-block;
 }
 
 .house {
-    color: var(--white);
     display: inline-block;
 }
 
@@ -200,17 +200,18 @@ body {
 
 /* Band Lineup Section */
 .band-lineup {
-    width: 33%;
+    width: 45%;
     margin: 3rem auto;
     animation: fadeInUp 1s ease-out 0.4s both;
 }
 
 .lineup-row {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 1.5rem;
     width: 100%;
+    gap: 2rem;
 }
 
 .band-name {
@@ -261,24 +262,38 @@ body {
     text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
 }
 
+/* Dynamic font compression based on character length */
+.band-name[data-chars="short"] {
+    transform: scaleX(1);
+}
+
+.band-name[data-chars="medium"] {
+    transform: scaleX(0.85);
+    letter-spacing: -0.04em;
+}
+
+.band-name[data-chars="long"] {
+    transform: scaleX(0.7);
+    letter-spacing: -0.06em;
+}
+
 /* Individual Band Styling with Transforms */
 .sex-bob-omb {
-    transform: skewY(-5deg);
+    transform: skewY(-5deg) scaleX(0.9);
     transform-origin: left center;
 }
 
 .sex-bob-omb .band-word:first-child {
     font-family: 'Black Ops One', sans-serif;
-    transform: scaleX(1.1);
 }
 
 .crash-and-boys {
-    transform: skewY(3deg);
+    transform: skewY(3deg) scaleX(0.75);
+    letter-spacing: -0.05em;
 }
 
 .crash-and-boys .band-word:first-child {
     font-family: 'Anton', sans-serif;
-    transform: scaleX(0.9);
 }
 
 .crash-and-boys .small-word:nth-of-type(1) {
@@ -292,7 +307,8 @@ body {
 }
 
 .clash-at-demonhead {
-    transform: skewY(-3deg) rotate(-2deg);
+    transform: skewY(-3deg) rotate(-2deg) scaleX(0.65);
+    letter-spacing: -0.06em;
 }
 
 .clash-at-demonhead .small-word:first-child {
@@ -306,11 +322,12 @@ body {
 }
 
 .single-bodies {
-    transform: skewY(4deg);
+    transform: skewY(4deg) scaleX(0.85);
+    letter-spacing: -0.03em;
 }
 
 .single-bodies .band-word:first-child {
-    transform: scaleX(0.8);
+    transform: scaleX(0.9);
 }
 
 .single-bodies .band-word:last-child {
@@ -318,21 +335,29 @@ body {
 }
 
 .little-dog {
-    transform: rotate(-5deg) skewY(-2deg);
+    transform: rotate(-5deg) skewY(-2deg) scaleX(0.95);
 }
 
 .little-dog .band-word:first-child {
     font-family: 'Anton', sans-serif;
-    transform: scaleX(1.2);
 }
 
 .betty-black {
-    transform: rotate(3deg) skewY(2deg);
+    transform: rotate(3deg) skewY(2deg) scaleX(0.9);
+    letter-spacing: -0.03em;
 }
 
 .betty-black .band-word:last-child {
     font-family: 'Black Ops One', sans-serif;
     transform: scaleX(0.95);
+}
+
+.torpoise {
+    transform: rotate(-4deg) skewY(3deg);
+}
+
+.torpoise .band-word {
+    font-family: 'Anton', sans-serif;
 }
 
 /* Adjust spacing between transformed elements */
@@ -358,27 +383,31 @@ body {
 
 /* Individual band hover overrides */
 .sex-bob-omb:hover {
-    transform: skewY(-5deg) scale(1.05);
+    transform: skewY(-5deg) scaleX(0.9) scale(1.05);
 }
 
 .crash-and-boys:hover {
-    transform: skewY(3deg) scale(1.05);
+    transform: skewY(3deg) scaleX(0.75) scale(1.05);
 }
 
 .clash-at-demonhead:hover {
-    transform: skewY(-3deg) rotate(-2deg) scale(1.05);
+    transform: skewY(-3deg) rotate(-2deg) scaleX(0.65) scale(1.05);
 }
 
 .single-bodies:hover {
-    transform: skewY(4deg) scale(1.05);
+    transform: skewY(4deg) scaleX(0.85) scale(1.05);
 }
 
 .little-dog:hover {
-    transform: rotate(-5deg) skewY(-2deg) scale(1.05);
+    transform: rotate(-5deg) skewY(-2deg) scaleX(0.95) scale(1.05);
 }
 
 .betty-black:hover {
-    transform: rotate(3deg) skewY(2deg) scale(1.05);
+    transform: rotate(3deg) skewY(2deg) scaleX(0.9) scale(1.05);
+}
+
+.torpoise:hover {
+    transform: rotate(-4deg) skewY(3deg) scale(1.05);
 }
 
 /* Hover ripple effect */
@@ -545,7 +574,8 @@ body {
     .clash-at-demonhead,
     .single-bodies,
     .little-dog,
-    .betty-black {
+    .betty-black,
+    .torpoise {
         transform: none;
     }
     
@@ -554,7 +584,8 @@ body {
     .clash-at-demonhead:hover,
     .single-bodies:hover,
     .little-dog:hover,
-    .betty-black:hover {
+    .betty-black:hover,
+    .torpoise:hover {
         transform: scale(1.02);
     }
     

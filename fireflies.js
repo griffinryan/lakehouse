@@ -26,4 +26,15 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('beforeunload', () => {
         fireflySystem.destroy();
     });
+    
+    // Add click handlers for band links
+    document.querySelectorAll('.band-name[data-url]').forEach(band => {
+        if (band.dataset.url !== '#') {
+            band.style.cursor = 'pointer';
+            band.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.open(band.dataset.url, '_blank');
+            });
+        }
+    });
 });
