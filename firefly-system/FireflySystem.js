@@ -3,14 +3,22 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { Firefly } from './Firefly.js';
+import { SwirlingBackground } from './SwirlingBackground.js';
+import { Tree } from './Tree.js';
 
 export class FireflySystem {
     constructor(container = document.body) {
         this.container = container;
         this.fireflies = [];
+        this.firefliesForeground = [];
+        this.firefliesBackground = [];
         this.mouse = new THREE.Vector2();
         this.mouseWorld = new THREE.Vector3();
         this.raycaster = new THREE.Raycaster();
+        this.background = null;
+        this.tree = null;
+        this.backgroundScene = null;
+        this.backgroundCamera = null;
         
         // Configuration
         this.config = {
@@ -28,6 +36,8 @@ export class FireflySystem {
         };
         
         this.init();
+        this.createBackground();
+        this.createTree();
         this.createFireflies();
         this.setupEventListeners();
         this.animate();
@@ -37,7 +47,10 @@ export class FireflySystem {
         // Scene setup
         this.scene = new THREE.Scene();
         this.scene.fog = new THREE.Fog(this.config.fogColor, this.config.fogNear, this.config.fogFar);
-        this.scene.background = new THREE.Color(this.config.environmentColor);
+        
+        // Background scene for swirling effect
+        this.backgroundScene = new THREE.Scene();
+        this.backgroundCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
         
         // Camera setup
         this.camera = new THREE.PerspectiveCamera(
@@ -51,12 +64,13 @@ export class FireflySystem {
         // Renderer setup
         this.renderer = new THREE.WebGLRenderer({
             antialias: true,
-            alpha: true
+            alpha: false
         });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
         this.renderer.toneMappingExposure = 1.5;
+        this.renderer.autoClear = false;
         
         // Replace existing canvas if it exists
         const existingCanvas = document.getElementById('particles');
@@ -83,19 +97,52 @@ export class FireflySystem {
         // Ambient light for subtle illumination
         const ambientLight = new THREE.AmbientLight(0x0a0a2e, 0.1);
         this.scene.add(ambientLight);
+        
+        // Add directional light for tree
+        const directionalLight = new THREE.DirectionalLight(0x4a6fa5, 0.3);
+        directionalLight.position.set(50, 100, 50);
+        this.scene.add(directionalLight);
+    }
+    
+    createBackground() {
+        this.background = new SwirlingBackground();
+        this.backgroundScene.add(this.background.mesh);
+    }
+    
+    createTree() {
+        this.tree = new Tree();
+        this.scene.add(this.tree.group);
     }
     
     createFireflies() {
         const geometry = new THREE.SphereGeometry(1, 16, 16);
+        const treeSpawnPoints = this.tree.getSpawnPoints();
+        const treeBounds = this.tree.getBoundingBox();
         
         for (let i = 0; i < this.config.fireflyCount; i++) {
-            const firefly = new Firefly(geometry, {
-                index: i,
-                position: new THREE.Vector3(
+            let position;
+            
+            // 40% spawn from tree branches
+            if (i < this.config.fireflyCount * 0.4 && treeSpawnPoints.length > 0) {
+                const spawnPoint = treeSpawnPoints[Math.floor(Math.random() * treeSpawnPoints.length)];
+                position = spawnPoint.clone();
+                position.add(new THREE.Vector3(
+                    (Math.random() - 0.5) * 50,
+                    (Math.random() - 0.5) * 50,
+                    (Math.random() - 0.5) * 50
+                ));
+            } else {
+                // Rest spawn randomly in scene
+                position = new THREE.Vector3(
                     (Math.random() - 0.5) * 800,
                     (Math.random() - 0.5) * 600,
                     (Math.random() - 0.5) * 400
-                ),
+                );
+            }
+            
+            const firefly = new Firefly(geometry, {
+                index: i,
+                position: position,
                 scale: Math.random() * 0.5 + 0.5,
                 blinkOffset: Math.random() * Math.PI * 2,
                 blinkSpeed: Math.random() * 0.5 + 0.5,
@@ -105,6 +152,16 @@ export class FireflySystem {
             });
             
             this.fireflies.push(firefly);
+            
+            // Separate fireflies into foreground and background layers
+            if (position.z > treeBounds.min.z) {
+                this.firefliesForeground.push(firefly);
+                firefly.mesh.renderOrder = 1;
+            } else {
+                this.firefliesBackground.push(firefly);
+                firefly.mesh.renderOrder = -1;
+            }
+            
             this.scene.add(firefly.mesh);
         }
     }
@@ -115,13 +172,36 @@ export class FireflySystem {
         });
     }
     
+    updateBackground(deltaTime) {
+        if (this.background) {
+            this.background.update(deltaTime);
+        }
+    }
+    
+    updateTree(deltaTime) {
+        if (this.tree) {
+            this.tree.update(deltaTime);
+        }
+    }
+    
     animate() {
         requestAnimationFrame(() => this.animate());
         
         const deltaTime = this.clock ? this.clock.getDelta() : 0;
         if (!this.clock) this.clock = new THREE.Clock();
         
+        // Update all components
+        this.updateBackground(deltaTime);
+        this.updateTree(deltaTime);
         this.updateFireflies(deltaTime);
+        
+        // Render in layers
+        this.renderer.clear();
+        
+        // Render background
+        this.renderer.render(this.backgroundScene, this.backgroundCamera);
+        
+        // Render main scene with bloom
         this.composer.render();
     }
     
@@ -143,6 +223,10 @@ export class FireflySystem {
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(window.innerWidth, window.innerHeight);
             this.composer.setSize(window.innerWidth, window.innerHeight);
+            
+            if (this.background) {
+                this.background.updateResolution();
+            }
         });
         
         // Touch events for mobile
@@ -179,6 +263,8 @@ export class FireflySystem {
     destroy() {
         // Clean up resources
         this.fireflies.forEach(firefly => firefly.destroy());
+        if (this.background) this.background.dispose();
+        if (this.tree) this.tree.dispose();
         this.renderer.dispose();
         this.composer.dispose();
     }

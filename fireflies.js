@@ -9,15 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Expose to window for debugging/configuration
     window.fireflySystem = fireflySystem;
     
-    // Custom configuration for summer night fireflies
+    // Custom configuration for Van Gogh-inspired night
     fireflySystem.setConfig({
-        fireflyCount: 150,
-        environmentColor: 0x0a0a2e, // Deep night blue
+        fireflyCount: 120,
         fogColor: 0x0a0a2e,
-        fogNear: 100,
-        fogFar: 800,
-        bloomStrength: 3.0,
-        bloomRadius: 1.0,
+        fogNear: 50,
+        fogFar: 600,
+        bloomStrength: 3.5,
+        bloomRadius: 1.2,
         bloomThreshold: 0.0,
         mouseRadius: 150,
         mouseForce: 0.4
