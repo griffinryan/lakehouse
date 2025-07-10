@@ -6,6 +6,7 @@ import { Firefly } from './Firefly.js';
 import { SwirlingBackground } from './SwirlingBackground.js';
 import { Tree } from './Tree.js';
 import { TextSwirl } from './TextSwirl.js';
+import { MouseFollowText } from './MouseFollowText.js';
 
 export class FireflySystem {
     constructor(container = document.body) {
@@ -21,6 +22,7 @@ export class FireflySystem {
         this.backgroundScene = null;
         this.backgroundCamera = null;
         this.textSwirl = null;
+        this.mouseFollowText = null;
         
         // Configuration
         this.config = {
@@ -41,7 +43,8 @@ export class FireflySystem {
         this.createBackground();
         this.createTree();
         this.createFireflies();
-        this.createTextSwirl();
+        // this.createTextSwirl(); // Disabled to prevent conflicts with MouseFollowText
+        this.createMouseFollowText();
         this.setupEventListeners();
         this.animate();
     }
@@ -131,8 +134,8 @@ export class FireflySystem {
         for (let i = 0; i < this.config.fireflyCount; i++) {
             let position;
             
-            // 40% spawn from tree branches
-            if (i < this.config.fireflyCount * 0.4 && treeSpawnPoints.length > 0) {
+            // 30% spawn from tree branches
+            if (i < this.config.fireflyCount * 0.3 && treeSpawnPoints.length > 0) {
                 const spawnPoint = treeSpawnPoints[Math.floor(Math.random() * treeSpawnPoints.length)];
                 position = spawnPoint.clone();
                 position.add(new THREE.Vector3(
@@ -140,6 +143,16 @@ export class FireflySystem {
                     (Math.random() - 0.5) * 80,
                     (Math.random() - 0.5) * 60
                 ));
+            } 
+            // 40% spawn on the sides of the window for enhanced orbital effect visibility
+            else if (i < this.config.fireflyCount * 0.7) {
+                const side = Math.random() < 0.5 ? -1 : 1;  // Left or right side
+                const edgeOffset = 350 + Math.random() * 100;  // Distance from center
+                position = new THREE.Vector3(
+                    side * edgeOffset,  // Far left or right
+                    (Math.random() - 0.5) * 600,  // Vertical spread
+                    (Math.random() - 0.5) * 400   // Depth spread
+                );
             } else {
                 // Rest spawn randomly in scene
                 position = new THREE.Vector3(
@@ -190,6 +203,24 @@ export class FireflySystem {
         };
     }
     
+    createMouseFollowText() {
+        this.mouseFollowText = new MouseFollowText(this.scene, this.camera);
+        
+        // Configure mouse follow settings with tighter orbital radius
+        this.mouseFollowText.config = {
+            ...this.mouseFollowText.config,
+            influenceRadius: 100,      // Reduced for tighter orbit
+            springStiffness: 0.08,     // Increased for tighter control
+            damping: 0.85,             // Reduced for more responsive movement
+            maxDisplacement: 50,       // Reduced max displacement
+            returnForce: 0.06,         // Increased return force
+            zDepth: 0.5,               // Reduced depth effect
+            rotationEffect: 0.0005,    // Reduced rotation
+            minDistance: 20,           // Tighter minimum distance
+            stickiness: 0.3            // Added stickiness
+        };
+    }
+    
     updateFireflies(deltaTime) {
         this.fireflies.forEach(firefly => {
             firefly.update(deltaTime, this.mouseWorld, this.config.mouseRadius, this.config.mouseForce);
@@ -219,9 +250,14 @@ export class FireflySystem {
         this.updateTree(deltaTime);
         this.updateFireflies(deltaTime);
         
-        // Update text swirl
-        if (this.textSwirl) {
-            this.textSwirl.update(deltaTime);
+        // Update text swirl - disabled to prevent conflicts
+        // if (this.textSwirl) {
+        //     this.textSwirl.update(deltaTime);
+        // }
+        
+        // Update mouse follow text
+        if (this.mouseFollowText) {
+            this.mouseFollowText.update(deltaTime);
         }
         
         // Render in layers
@@ -295,6 +331,7 @@ export class FireflySystem {
         if (this.background) this.background.dispose();
         if (this.tree) this.tree.dispose();
         if (this.textSwirl) this.textSwirl.destroy();
+        if (this.mouseFollowText) this.mouseFollowText.destroy();
         this.renderer.dispose();
         this.composer.dispose();
     }
