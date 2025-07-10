@@ -3,7 +3,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { Firefly } from './Firefly.js';
-import { SwirlingBackground } from './SwirlingBackground.js';
+import { VanGoghBackground } from './VanGoghBackground.js';
 import { Tree } from './Tree.js';
 
 export class FireflySystem {
@@ -17,8 +17,6 @@ export class FireflySystem {
         this.raycaster = new THREE.Raycaster();
         this.background = null;
         this.tree = null;
-        this.backgroundScene = null;
-        this.backgroundCamera = null;
         
         // Configuration
         this.config = {
@@ -27,12 +25,12 @@ export class FireflySystem {
             mouseRadius: 200,
             mouseForce: 0.5,
             environmentColor: new THREE.Color(0x0a0a2e),
-            fogColor: new THREE.Color(0x0a0a2e),
-            fogNear: 1,
-            fogFar: 1000,
-            bloomStrength: 4.0,  // Increased for more explosive visual impact
-            bloomRadius: 1.2,    // Wider bloom spread
-            bloomThreshold: 0.05  // Lower threshold to capture more light
+            fogColor: new THREE.Color(0x0a0a1a),  // Darker fog to match Van Gogh night
+            fogNear: 100,
+            fogFar: 1500,  // Extended fog range for background layers
+            bloomStrength: 3.5,  // Balanced for Van Gogh background
+            bloomRadius: 1.0,    // Focused bloom
+            bloomThreshold: 0.1   // Adjusted threshold for darker background
         };
         
         this.init();
@@ -48,19 +46,20 @@ export class FireflySystem {
         this.scene = new THREE.Scene();
         this.scene.fog = new THREE.Fog(this.config.fogColor, this.config.fogNear, this.config.fogFar);
         
-        // Background scene for swirling effect
-        this.backgroundScene = new THREE.Scene();
-        this.backgroundCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+        // Set scene background to match deepest Van Gogh layer color
+        this.scene.background = new THREE.Color(0x020205);
         
         // Camera setup
         this.camera = new THREE.PerspectiveCamera(
             75,
             window.innerWidth / window.innerHeight,
             0.1,
-            1000
+            2000  // Extended to see background layers
         );
         this.camera.position.set(-50, 50, 350);  // Adjusted to better frame the larger tree
         this.camera.lookAt(0, 0, 0);
+        this.camera.far = 2000;  // Extend far plane to see background layers
+        this.camera.updateProjectionMatrix();
         
         // Renderer setup
         this.renderer = new THREE.WebGLRenderer({
@@ -70,8 +69,9 @@ export class FireflySystem {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        this.renderer.toneMappingExposure = 1.8;  // Increased exposure for brighter fireflies
-        this.renderer.autoClear = false;
+        this.renderer.toneMappingExposure = 1.6;  // Balanced exposure for Van Gogh background
+        this.renderer.autoClear = true;
+        this.renderer.setClearColor(0x020205, 1);  // Deep night black to match Van Gogh background
         
         // Replace existing canvas if it exists
         const existingCanvas = document.getElementById('particles');
@@ -95,8 +95,8 @@ export class FireflySystem {
         );
         this.composer.addPass(bloomPass);
         
-        // Ambient light for subtle illumination
-        const ambientLight = new THREE.AmbientLight(0x1a1a3e, 0.15);  // Slightly brighter ambient
+        // Ambient light adjusted for Van Gogh palette
+        const ambientLight = new THREE.AmbientLight(0x15102a, 0.2);  // Purple-tinted ambient
         this.scene.add(ambientLight);
         
         // Add directional light for tree
@@ -111,8 +111,11 @@ export class FireflySystem {
     }
     
     createBackground() {
-        this.background = new SwirlingBackground();
-        this.backgroundScene.add(this.background.mesh);
+        this.background = new VanGoghBackground();
+        this.scene.add(this.background.group);
+        
+        // Update fog settings on background
+        this.background.updateFog(this.config.fogColor, this.config.fogNear, this.config.fogFar);
     }
     
     createTree() {
@@ -201,13 +204,7 @@ export class FireflySystem {
         this.updateTree(deltaTime);
         this.updateFireflies(deltaTime);
         
-        // Render in layers
-        this.renderer.clear();
-        
-        // Render background
-        this.renderer.render(this.backgroundScene, this.backgroundCamera);
-        
-        // Render main scene with bloom
+        // Render scene with bloom
         this.composer.render();
     }
     
@@ -263,6 +260,15 @@ export class FireflySystem {
                 this.config.fogNear,
                 this.config.fogFar
             );
+            
+            // Update background fog if it exists
+            if (this.background) {
+                this.background.updateFog(
+                    this.config.fogColor,
+                    this.config.fogNear,
+                    this.config.fogFar
+                );
+            }
         }
     }
     
