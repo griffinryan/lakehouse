@@ -11,15 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Custom configuration for Van Gogh-inspired night
     fireflySystem.setConfig({
-        fireflyCount: 120,
+        fireflyCount: 180,    // Increased from 120 for more side particles
         fogColor: 0x0a0a2e,
         fogNear: 50,
         fogFar: 600,
         bloomStrength: 3.5,
         bloomRadius: 1.2,
         bloomThreshold: 0.0,
-        mouseRadius: 150,
-        mouseForce: 0.4
+        mouseRadius: 200,     // Increased for wider orbital effect
+        mouseForce: 0.5       // Slightly stronger mouse force
     });
     
     // Clean up on page unload
@@ -97,53 +97,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const initMouseFollowText = () => {
         if (!fireflySystem.mouseFollowText) return;
         
-        // Add venue name with enhanced sticky settings
-        const venueName = document.querySelector('.venue-name');
-        if (venueName) {
-            fireflySystem.mouseFollowText.addElement(venueName, {
-                influenceRadius: 300,
-                springStiffness: 0.15,
-                maxDisplacement: 180,
-                zDepth: 1.2,
-                stickiness: 0.3,
-                minDistance: 40,
-                returnForce: 0.06
-            });
-        }
+        // REMOVED: venue name and band names from mouse follow
+        // Only keeping date display and tagline with tighter orbital radius
         
-        // Add band names with responsive settings
-        document.querySelectorAll('.band-name').forEach((band, index) => {
-            fireflySystem.mouseFollowText.addElement(band, {
-                influenceRadius: 250,
-                springStiffness: 0.12,
-                damping: 0.90 + index * 0.005,
-                maxDisplacement: 140,
-                stickiness: 0.25,
-                minDistance: 35
-            });
-        });
-        
-        // Add date display with moderate effect
+        // Add date display with tighter orbital effect
         const dateDisplay = document.querySelector('.date-display');
         if (dateDisplay) {
             fireflySystem.mouseFollowText.addElement(dateDisplay, {
-                influenceRadius: 200,
-                springStiffness: 0.10,
-                maxDisplacement: 100,
-                returnForce: 0.07,
-                stickiness: 0.2
+                influenceRadius: 120,      // Reduced from 200
+                springStiffness: 0.15,     // Increased for tighter orbit
+                maxDisplacement: 60,       // Reduced from 100
+                returnForce: 0.12,         // Increased for tighter return
+                stickiness: 0.35,          // Increased for more magnetic feel
+                damping: 0.85,             // Reduced for more responsive movement
+                minDistance: 20            // Reduced for tighter orbit
             });
         }
         
-        // Add tagline with subtle but responsive effect
+        // Add tagline with tighter orbital effect
         const tagline = document.querySelector('.tagline');
         if (tagline) {
             fireflySystem.mouseFollowText.addElement(tagline, {
-                influenceRadius: 180,
-                springStiffness: 0.08,
-                maxDisplacement: 80,
-                damping: 0.93,
-                stickiness: 0.15
+                influenceRadius: 100,      // Reduced from 180
+                springStiffness: 0.12,     // Increased from 0.08
+                maxDisplacement: 50,       // Reduced from 80
+                damping: 0.88,             // Reduced from 0.93
+                stickiness: 0.25,          // Increased from 0.15
+                returnForce: 0.10,         // Increased for tighter return
+                minDistance: 15            // Added for tighter orbit
             });
         }
     };

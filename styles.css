@@ -471,7 +471,7 @@ body {
 .band-name:hover {
     transform: scale(1.05);
     z-index: 10;
-    animation: cosineWiggle 2s ease-in-out infinite;
+    animation: cosineWiggle 1.5s ease-in-out infinite;
 }
 
 .band-name:hover .band-word:not(.small-word) {
@@ -486,57 +486,57 @@ body {
 
 /* Individual band hover overrides */
 .sex-bob-omb:hover {
-    animation: cosineWiggle 2s ease-in-out infinite, sexBobOmbWiggle 2s ease-in-out infinite;
+    animation: cosineWiggle 1.2s ease-in-out infinite, sexBobOmbWiggle 1.2s ease-in-out infinite;
 }
 
 @keyframes sexBobOmbWiggle {
-    0%, 100% { transform: skewY(-5deg) scaleX(0.9) scale(1.05) translateY(0); }
-    50% { transform: skewY(-5deg) scaleX(0.9) scale(1.05) translateY(-8px); }
+    0%, 100% { transform: skewY(-5deg) scaleX(0.9) scale(1.05) translateY(0) rotateZ(0deg); }
+    50% { transform: skewY(-5deg) scaleX(0.9) scale(1.08) translateY(-15px) rotateZ(3deg); }
 }
 
 .crash-and-boys:hover {
-    animation: cosineWiggle 2s ease-in-out infinite, crashAndBoysWiggle 2s ease-in-out infinite;
+    animation: cosineWiggle 1.3s ease-in-out infinite, crashAndBoysWiggle 1.3s ease-in-out infinite;
 }
 
 @keyframes crashAndBoysWiggle {
-    0%, 100% { transform: skewY(3deg) scaleX(0.75) scale(1.05) translateY(0); }
-    50% { transform: skewY(3deg) scaleX(0.75) scale(1.05) translateY(-8px); }
+    0%, 100% { transform: skewY(3deg) scaleX(0.75) scale(1.05) translateY(0) rotateZ(0deg); }
+    50% { transform: skewY(3deg) scaleX(0.75) scale(1.08) translateY(-15px) rotateZ(-3deg); }
 }
 
 .clash-at-demonhead:hover {
-    animation: cosineWiggle 2s ease-in-out infinite, clashAtDemonheadWiggle 2s ease-in-out infinite;
+    animation: cosineWiggle 1.4s ease-in-out infinite, clashAtDemonheadWiggle 1.4s ease-in-out infinite;
 }
 
 @keyframes clashAtDemonheadWiggle {
     0%, 100% { transform: skewY(-3deg) rotate(-2deg) scaleX(0.65) scale(1.05) translateY(0); }
-    50% { transform: skewY(-3deg) rotate(-2deg) scaleX(0.65) scale(1.05) translateY(-8px); }
+    50% { transform: skewY(-3deg) rotate(-2deg) scaleX(0.65) scale(1.08) translateY(-15px) rotateZ(4deg); }
 }
 
 .single-bodies:hover {
-    animation: cosineWiggle 2s ease-in-out infinite, singleBodiesWiggle 2s ease-in-out infinite;
+    animation: cosineWiggle 1.25s ease-in-out infinite, singleBodiesWiggle 1.25s ease-in-out infinite;
 }
 
 @keyframes singleBodiesWiggle {
-    0%, 100% { transform: skewY(4deg) scaleX(0.85) scale(1.05) translateY(0); }
-    50% { transform: skewY(4deg) scaleX(0.85) scale(1.05) translateY(-8px); }
+    0%, 100% { transform: skewY(4deg) scaleX(0.85) scale(1.05) translateY(0) rotateZ(0deg); }
+    50% { transform: skewY(4deg) scaleX(0.85) scale(1.08) translateY(-15px) rotateZ(-4deg); }
 }
 
 .little-dog:hover {
-    animation: cosineWiggle 2s ease-in-out infinite, littleDogWiggle 2s ease-in-out infinite;
+    animation: cosineWiggle 1.35s ease-in-out infinite, littleDogWiggle 1.35s ease-in-out infinite;
 }
 
 @keyframes littleDogWiggle {
     0%, 100% { transform: rotate(-5deg) skewY(-2deg) scaleX(0.95) scale(1.05) translateY(0); }
-    50% { transform: rotate(-5deg) skewY(-2deg) scaleX(0.95) scale(1.05) translateY(-8px); }
+    50% { transform: rotate(-5deg) skewY(-2deg) scaleX(0.95) scale(1.08) translateY(-15px) rotateZ(3deg); }
 }
 
 .betty-black:hover {
-    animation: cosineWiggle 2s ease-in-out infinite, bettyBlackWiggle 2s ease-in-out infinite;
+    animation: cosineWiggle 1.15s ease-in-out infinite, bettyBlackWiggle 1.15s ease-in-out infinite;
 }
 
 @keyframes bettyBlackWiggle {
     0%, 100% { transform: rotate(3deg) skewY(2deg) scaleX(0.9) scale(1.05) translateY(0); }
-    50% { transform: rotate(3deg) skewY(2deg) scaleX(0.9) scale(1.05) translateY(-8px); }
+    50% { transform: rotate(3deg) skewY(2deg) scaleX(0.9) scale(1.08) translateY(-15px) rotateZ(-3deg); }
 }
 
 
@@ -769,19 +769,19 @@ body {
 /* Cosine-like wiggle animation for bands */
 @keyframes cosineWiggle {
     0% { 
-        transform: translateY(0);
+        transform: translateY(0) translateX(0) rotate(0deg);
     }
     25% { 
-        transform: translateY(-5px);
+        transform: translateY(-12px) translateX(8px) rotate(2deg);
     }
     50% { 
-        transform: translateY(0);
+        transform: translateY(0) translateX(0) rotate(0deg);
     }
     75% { 
-        transform: translateY(5px);
+        transform: translateY(12px) translateX(-8px) rotate(-2deg);
     }
     100% { 
-        transform: translateY(0);
+        transform: translateY(0) translateX(0) rotate(0deg);
     }
 }
 

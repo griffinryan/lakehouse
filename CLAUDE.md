@@ -542,3 +542,57 @@ console.log(window.fireflySystem.frameCount);
 *This documentation reflects the current working state of the firefly system. For experimental features (like VanGoghBackground), refer to feature branch documentation.*
 
 *Last updated: Current working branch with SwirlingBackground implementation*
+
+## 🎯 Mouse Follow Text Effects
+
+### Overview
+The MouseFollowText component creates a magnetic orbital effect where text elements are attracted to and orbit around the mouse cursor. This creates an engaging interactive experience that enhances the magical atmosphere.
+
+### Current Configuration (Updated)
+- **Active Elements**: Only date display and tagline (venue name and band names removed)
+- **Tighter Orbital Radius**: Reduced influence radius and displacement for more controlled movement
+- **Enhanced Stickiness**: Increased magnetic feel when cursor is near elements
+
+### Configuration Parameters
+```javascript
+{
+    influenceRadius: 100-120,    // Reduced from 150-300 for tighter orbit
+    springStiffness: 0.12-0.15,  // Increased for tighter control
+    maxDisplacement: 50-60,      // Reduced from 80-180
+    damping: 0.85-0.88,          // Reduced for more responsive movement
+    returnForce: 0.10-0.12,      // Increased for stronger return
+    stickiness: 0.25-0.35,       // Increased for magnetic feel
+    minDistance: 15-20,          // Tighter minimum orbital distance
+    zDepth: 0.5,                 // Reduced 3D depth effect
+    rotationEffect: 0.0005       // Subtle rotation based on velocity
+}
+```
+
+### Band Name Animations (Enhanced)
+Band names now have more dramatic cosine/sine wiggle animations on hover:
+- **Increased Movement**: translateY increased from ±5px to ±12px
+- **Added Horizontal Motion**: translateX ±8px for figure-8 patterns
+- **Rotation Effects**: Added 2-3 degree rotations during animation
+- **Varied Animation Speeds**: Each band has unique timing (1.15s - 1.4s)
+- **Scale Variations**: Hover scale increases to 1.08 at peak
+
+### Firefly Distribution (Updated)
+```javascript
+{
+    fireflyCount: 180,           // Increased from 120
+    distribution: {
+        tree: 30%,               // Spawn from tree branches
+        sides: 40%,              // Enhanced side spawning for orbital visibility
+        random: 30%              // Random scene distribution
+    },
+    sideSpawnDistance: 350-450, // Distance from center for side fireflies
+    mouseRadius: 200,            // Increased for wider orbital effect
+    mouseForce: 0.5             // Slightly stronger mouse interaction
+}
+```
+
+### Implementation Notes
+1. **TextSwirl Disabled**: Commented out to prevent conflicts with MouseFollowText
+2. **GPU Acceleration**: All animated elements use `translateZ(0)` for performance
+3. **Individual Letter Support**: System can animate individual letters within elements
+4. **Mobile Compatible**: Touch events supported for mobile devices
