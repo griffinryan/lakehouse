@@ -52,3 +52,8 @@ prisma/dev.db
 **/Dockerfile
 **/docker-compose*.yml
 
+# Screenshots
+screenshots/
+*.png
+*.jpg
+

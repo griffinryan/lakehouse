@@ -57,7 +57,7 @@ export class Firefly {
         );
     }
     
-    update(deltaTime, mousePosition, mouseRadius, mouseForce) {
+    update(deltaTime) {
         this.time += deltaTime;
         
         // Update shader time
@@ -69,8 +69,7 @@ export class Firefly {
         // Blinking behavior
         this.updateBlinkingBehavior(deltaTime);
         
-        // Mouse interaction
-        this.updateMouseInteraction(mousePosition, mouseRadius, mouseForce, deltaTime);
+        // Mouse interaction removed for performance optimization
         
         // Apply velocity with proper frame-independent movement
         this.mesh.position.add(this.velocity.clone().multiplyScalar(deltaTime));

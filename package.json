@@ -8,7 +8,16 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "serve": "npx serve -s . -p 8080"
+    "serve": "npx serve -s . -p 8080",
+    "poster": "node scripts/capture-poster.js poster",
+    "poster:4k": "node scripts/capture-poster.js 4k",
+    "poster:2k": "node scripts/capture-poster.js 2k",
+    "poster:fullhd": "node scripts/capture-poster.js fullhd",
+    "poster:instagram": "node scripts/capture-poster.js instagram",
+    "poster:twitter": "node scripts/capture-poster.js twitter",
+    "poster:custom": "node scripts/capture-poster.js custom 5000 3000",
+    "poster:all": "npm run poster && npm run poster:4k && npm run poster:instagram && npm run poster:twitter",
+    "poster:help": "node scripts/capture-poster.js --help"
   },
   "keywords": [
     "music",
@@ -20,6 +29,7 @@
   "license": "ISC",
   "devDependencies": {
     "live-server": "^1.2.2",
+    "puppeteer": "^21.0.0",
     "terser": "^5.43.1",
     "vite": "^7.0.3"
   },
