@@ -305,6 +305,173 @@ body {
     letter-spacing: 0.05em;
 }
 
+/* Creative Contact Poster Section */
+.contact-poster {
+    text-align: center;
+    margin: 3rem auto;
+}
+
+.booking-label {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+}
+
+.contact-headliners {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.contact-act {
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: all 0.3s ease;
+    transform: translateZ(0); /* GPU acceleration */
+    will-change: transform;
+}
+
+.contact-name {
+    display: inline-block;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+/* Lauren's letter styling */
+.contact-lauren .name-letter {
+    display: inline-block;
+    font-family: 'Permanent Marker', cursive;
+    letter-spacing: -0.05em;
+    margin: 0 -0.01em;
+    color: var(--coral-pink);
+}
+
+.contact-lauren .name-letter.highlight {
+    color: var(--cream);
+    text-shadow: 0 0 20px rgba(254, 243, 199, 0.5);
+}
+
+.contact-lauren {
+    transform: rotate(-3deg);
+}
+
+/* Griffin's letter styling - same as Lauren */
+.contact-griffin .name-letter {
+    display: inline-block;
+    font-family: 'Permanent Marker', cursive;
+    letter-spacing: -0.05em;
+    margin: 0 -0.01em;
+    color: var(--coral-pink);
+}
+
+.contact-griffin .name-letter.highlight {
+    color: var(--cream);
+    text-shadow: 0 0 20px rgba(254, 243, 199, 0.5);
+}
+
+.contact-griffin .name-letter-space {
+    display: inline-block;
+    width: 0.3em;
+}
+
+.contact-griffin {
+    transform: skewY(2deg);
+}
+
+/* Email styling */
+.contact-email {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--sunset-gold);
+    text-decoration: none;
+    margin-top: 0.5rem;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: 0.02em;
+}
+
+/* Divider styling */
+.contact-divider {
+    font-size: 2rem;
+    color: var(--sunset-gold);
+    animation: spinDivider 8s linear infinite;
+}
+
+.divider-symbol {
+    display: inline-block;
+}
+
+@keyframes spinDivider {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Hover effects */
+.contact-act:hover .contact-email {
+    color: var(--sunset-orange);
+    text-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.contact-lauren:hover {
+    animation: cosineWiggle 1.3s ease-in-out infinite, laurenDance 1.3s ease-in-out infinite;
+}
+
+.contact-griffin:hover {
+    animation: cosineWiggle 1.2s ease-in-out infinite, griffinGroove 1.2s ease-in-out infinite;
+}
+
+.contact-act:hover .name-letter:not(.highlight),
+.contact-act:hover .name-word:not(.highlight) {
+    color: var(--coral-pink-hover);
+    text-shadow: 0 0 30px rgba(255, 71, 87, 0.8),
+                 0 0 50px rgba(255, 71, 87, 0.5);
+    filter: brightness(1.2);
+}
+
+.contact-act:hover .name-letter.highlight,
+.contact-act:hover .name-word.highlight {
+    text-shadow: 0 0 30px rgba(254, 243, 199, 0.8),
+                 0 0 50px rgba(254, 243, 199, 0.5);
+    filter: brightness(1.3);
+}
+
+@keyframes laurenDance {
+    0%, 100% { 
+        transform: rotate(-3deg) translateX(0) scale(1); 
+    }
+    25% { 
+        transform: rotate(-3deg) translateX(-8px) scale(1.03); 
+    }
+    50% { 
+        transform: rotate(-3deg) translateX(0) scale(1.05); 
+    }
+    75% { 
+        transform: rotate(-3deg) translateX(8px) scale(1.03); 
+    }
+}
+
+@keyframes griffinGroove {
+    0%, 100% { 
+        transform: skewY(2deg) translateY(0) scale(1); 
+    }
+    50% { 
+        transform: skewY(2deg) translateY(-8px) scale(1.05); 
+    }
+}
+
 /* Band Lineup Section */
 .band-lineup {
     width: 45%;
@@ -332,12 +499,32 @@ body {
     transition: all 0.3s ease;
     transform-style: preserve-3d;
     backface-visibility: hidden;
+    transform: translateZ(0); /* Force GPU layer */
+    will-change: transform; /* Optimize for animations */
 }
 
 .band-word {
     display: inline-block;
     font-family: 'Bebas Neue', sans-serif;
     letter-spacing: -0.02em;
+}
+
+/* Individual letter styling for Torpoise */
+.band-letter {
+    display: inline-block;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: -0.08em; /* Tighter spacing for single letters */
+    margin: 0 -0.02em; /* Bring letters closer */
+    color: var(--coral-pink); /* Base color for non-highlighted letters */
+}
+
+.torpoise .band-letter {
+    font-family: 'Black Ops One', sans-serif;
+}
+
+.torpoise .band-letter.highlight {
+    color: var(--cream);
+    text-shadow: 0 0 20px rgba(254, 243, 199, 0.5);
 }
 
 /* Row-specific font sizes */
@@ -387,45 +574,35 @@ body {
 }
 
 /* Individual Band Styling with Transforms */
-.sex-bob-omb {
+.torpoise {
     transform: skewY(-5deg) scaleX(0.9);
     transform-origin: left center;
 }
 
-.sex-bob-omb .band-word:first-child {
+.torpoise .band-word:first-child {
     font-family: 'Black Ops One', sans-serif;
 }
 
-.crash-and-boys {
+.mel-lanzieri {
     transform: skewY(3deg) scaleX(0.75);
     letter-spacing: -0.05em;
 }
 
-.crash-and-boys .band-word:first-child {
+.mel-lanzieri .band-word:first-child {
     font-family: 'Anton', sans-serif;
 }
 
-.crash-and-boys .small-word:nth-of-type(1) {
-    transform: rotate(-15deg);
-    display: inline-block;
-}
-
-.crash-and-boys .small-word:nth-of-type(2) {
-    transform: rotate(-10deg) translateY(-0.1em);
-    display: inline-block;
-}
-
-.clash-at-demonhead {
-    transform: skewY(-3deg) rotate(-2deg) scaleX(0.65);
+.the-zipps {
+    transform: skewY(-3deg) rotate(-2deg) scaleX(0.85);
     letter-spacing: -0.06em;
 }
 
-.clash-at-demonhead .small-word:first-child {
+.the-zipps .small-word:first-child {
     transform: rotate(-20deg) translateY(0.2em);
     font-size: 0.5em;
 }
 
-.clash-at-demonhead .band-word:nth-of-type(4) {
+.the-zipps .band-word:last-child {
     font-family: 'Black Ops One', sans-serif;
     transform: scaleX(0.85);
 }
@@ -474,42 +651,51 @@ body {
     animation: cosineWiggle 1.5s ease-in-out infinite;
 }
 
-.band-name:hover .band-word:not(.small-word) {
+.band-name:hover .band-word:not(.small-word),
+.band-name:hover .band-letter:not(.highlight) {
     color: var(--coral-pink-hover);
-    text-shadow: 0 0 30px rgba(255, 71, 87, 0.7);
+    text-shadow: 0 0 40px rgba(255, 71, 87, 0.9),
+                 0 0 60px rgba(255, 71, 87, 0.6);
+    filter: brightness(1.3);
+    transform: translateZ(0); /* GPU acceleration */
+    will-change: transform, filter;
 }
 
 .band-name:hover .highlight {
     color: var(--cream);
-    text-shadow: 0 0 30px rgba(254, 243, 199, 0.5);
+    text-shadow: 0 0 40px rgba(254, 243, 199, 0.8),
+                 0 0 60px rgba(254, 243, 199, 0.5);
+    filter: brightness(1.4);
+    transform: translateZ(0); /* GPU acceleration */
+    will-change: transform, filter;
 }
 
 /* Individual band hover overrides */
-.sex-bob-omb:hover {
-    animation: cosineWiggle 1.2s ease-in-out infinite, sexBobOmbWiggle 1.2s ease-in-out infinite;
+.torpoise:hover {
+    animation: cosineWiggle 1.2s ease-in-out infinite, torpoiseWiggle 1.2s ease-in-out infinite;
 }
 
-@keyframes sexBobOmbWiggle {
+@keyframes torpoiseWiggle {
     0%, 100% { transform: skewY(-5deg) scaleX(0.9) scale(1.05) translateY(0) rotateZ(0deg); }
     50% { transform: skewY(-5deg) scaleX(0.9) scale(1.08) translateY(-15px) rotateZ(3deg); }
 }
 
-.crash-and-boys:hover {
-    animation: cosineWiggle 1.3s ease-in-out infinite, crashAndBoysWiggle 1.3s ease-in-out infinite;
+.mel-lanzieri:hover {
+    animation: cosineWiggle 1.3s ease-in-out infinite, melLanzieriWiggle 1.3s ease-in-out infinite;
 }
 
-@keyframes crashAndBoysWiggle {
+@keyframes melLanzieriWiggle {
     0%, 100% { transform: skewY(3deg) scaleX(0.75) scale(1.05) translateY(0) rotateZ(0deg); }
     50% { transform: skewY(3deg) scaleX(0.75) scale(1.08) translateY(-15px) rotateZ(-3deg); }
 }
 
-.clash-at-demonhead:hover {
-    animation: cosineWiggle 1.4s ease-in-out infinite, clashAtDemonheadWiggle 1.4s ease-in-out infinite;
+.the-zipps:hover {
+    animation: cosineWiggle 1.4s ease-in-out infinite, theZippsWiggle 1.4s ease-in-out infinite;
 }
 
-@keyframes clashAtDemonheadWiggle {
-    0%, 100% { transform: skewY(-3deg) rotate(-2deg) scaleX(0.65) scale(1.05) translateY(0); }
-    50% { transform: skewY(-3deg) rotate(-2deg) scaleX(0.65) scale(1.08) translateY(-15px) rotateZ(4deg); }
+@keyframes theZippsWiggle {
+    0%, 100% { transform: skewY(-3deg) rotate(-2deg) scaleX(0.85) scale(1.05) translateY(0); }
+    50% { transform: skewY(-3deg) rotate(-2deg) scaleX(0.85) scale(1.08) translateY(-15px) rotateZ(4deg); }
 }
 
 .single-bodies:hover {

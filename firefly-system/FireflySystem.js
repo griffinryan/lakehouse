@@ -26,7 +26,7 @@ export class FireflySystem {
         
         // Configuration
         this.config = {
-            fireflyCount: 250,  // More fireflies for denser effect
+            fireflyCount: 180,  // Optimized for performance on low-powered devices
             fireflyScale: 1,
             mouseRadius: 200,
             mouseForce: 0.5,
@@ -223,7 +223,7 @@ export class FireflySystem {
     
     updateFireflies(deltaTime) {
         this.fireflies.forEach(firefly => {
-            firefly.update(deltaTime, this.mouseWorld, this.config.mouseRadius, this.config.mouseForce);
+            firefly.update(deltaTime);
         });
     }
     
@@ -306,6 +306,90 @@ export class FireflySystem {
                 this.raycaster.ray.intersectPlane(intersectPlane, this.mouseWorld);
             }
         });
+        
+        // Keyboard shortcuts
+        window.addEventListener('keydown', async (event) => {
+            // 'S' key for screenshot
+            if (event.key === 's' || event.key === 'S') {
+                console.log('Capturing screenshot...');
+                
+                // Show visual feedback
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = '50%';
+                overlay.style.left = '50%';
+                overlay.style.transform = 'translate(-50%, -50%)';
+                overlay.style.background = 'rgba(0, 0, 0, 0.8)';
+                overlay.style.color = 'white';
+                overlay.style.padding = '20px 40px';
+                overlay.style.borderRadius = '10px';
+                overlay.style.fontSize = '20px';
+                overlay.style.zIndex = '10000';
+                overlay.textContent = 'Capturing high-resolution screenshot...';
+                document.body.appendChild(overlay);
+                
+                try {
+                    // Default to 4K resolution for manual captures
+                    const success = await this.downloadScreenshot(3840, 2160);
+                    
+                    if (success) {
+                        overlay.textContent = '✓ Screenshot saved!';
+                        overlay.style.background = 'rgba(0, 128, 0, 0.8)';
+                    } else {
+                        overlay.textContent = '✗ Screenshot failed';
+                        overlay.style.background = 'rgba(255, 0, 0, 0.8)';
+                    }
+                } catch (error) {
+                    overlay.textContent = '✗ Screenshot failed';
+                    overlay.style.background = 'rgba(255, 0, 0, 0.8)';
+                    console.error('Screenshot error:', error);
+                }
+                
+                // Remove overlay after 2 seconds
+                setTimeout(() => {
+                    overlay.remove();
+                }, 2000);
+            }
+            
+            // 'P' key for poster size (2400x3600)
+            if (event.key === 'p' || event.key === 'P') {
+                console.log('Capturing poster-sized screenshot...');
+                
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = '50%';
+                overlay.style.left = '50%';
+                overlay.style.transform = 'translate(-50%, -50%)';
+                overlay.style.background = 'rgba(0, 0, 0, 0.8)';
+                overlay.style.color = 'white';
+                overlay.style.padding = '20px 40px';
+                overlay.style.borderRadius = '10px';
+                overlay.style.fontSize = '20px';
+                overlay.style.zIndex = '10000';
+                overlay.textContent = 'Capturing poster-sized screenshot...';
+                document.body.appendChild(overlay);
+                
+                try {
+                    const success = await this.downloadScreenshot(2400, 3600);
+                    
+                    if (success) {
+                        overlay.textContent = '✓ Poster saved!';
+                        overlay.style.background = 'rgba(0, 128, 0, 0.8)';
+                    } else {
+                        overlay.textContent = '✗ Poster failed';
+                        overlay.style.background = 'rgba(255, 0, 0, 0.8)';
+                    }
+                } catch (error) {
+                    overlay.textContent = '✗ Poster failed';
+                    overlay.style.background = 'rgba(255, 0, 0, 0.8)';
+                    console.error('Poster error:', error);
+                }
+                
+                setTimeout(() => {
+                    overlay.remove();
+                }, 2000);
+            }
+        });
     }
     
     // Configuration methods
@@ -322,6 +406,119 @@ export class FireflySystem {
                 this.config.fogNear,
                 this.config.fogFar
             );
+        }
+    }
+    
+    // High-quality screenshot capture method
+    async captureScreenshot(width = 3840, height = 2160, filename = null) {
+        // Store original renderer size
+        const originalWidth = this.renderer.domElement.width;
+        const originalHeight = this.renderer.domElement.height;
+        const originalPixelRatio = this.renderer.getPixelRatio();
+        
+        // Create render target for high-resolution capture
+        const renderTarget = new THREE.WebGLRenderTarget(width, height, {
+            minFilter: THREE.LinearFilter,
+            magFilter: THREE.LinearFilter,
+            format: THREE.RGBAFormat,
+            type: THREE.UnsignedByteType,
+            depthBuffer: true,
+            stencilBuffer: false,
+            samples: 8 // Multi-sampling for better quality
+        });
+        
+        // Temporarily update renderer settings
+        this.renderer.setSize(width, height);
+        this.renderer.setPixelRatio(1); // Use 1:1 pixel ratio for exact resolution
+        
+        // Update camera aspect ratio
+        const originalAspect = this.camera.aspect;
+        this.camera.aspect = width / height;
+        this.camera.updateProjectionMatrix();
+        
+        // Update composer for high-res render
+        this.composer.setSize(width, height);
+        
+        // Render to render target
+        this.renderer.setRenderTarget(renderTarget);
+        
+        // Clear and render background scene
+        this.renderer.clear();
+        this.renderer.render(this.backgroundScene, this.backgroundCamera);
+        
+        // Render main scene with bloom
+        this.composer.render(renderTarget);
+        
+        // Read pixels from render target
+        const pixels = new Uint8Array(width * height * 4);
+        this.renderer.readRenderTargetPixels(renderTarget, 0, 0, width, height, pixels);
+        
+        // Create canvas for image generation
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext('2d');
+        const imageData = context.createImageData(width, height);
+        
+        // Flip Y-axis (WebGL renders upside down)
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                const sourceIndex = ((height - y - 1) * width + x) * 4;
+                const targetIndex = (y * width + x) * 4;
+                imageData.data[targetIndex] = pixels[sourceIndex];
+                imageData.data[targetIndex + 1] = pixels[sourceIndex + 1];
+                imageData.data[targetIndex + 2] = pixels[sourceIndex + 2];
+                imageData.data[targetIndex + 3] = pixels[sourceIndex + 3];
+            }
+        }
+        
+        context.putImageData(imageData, 0, 0);
+        
+        // Restore original renderer settings
+        this.renderer.setRenderTarget(null);
+        this.renderer.setSize(originalWidth, originalHeight);
+        this.renderer.setPixelRatio(originalPixelRatio);
+        this.camera.aspect = originalAspect;
+        this.camera.updateProjectionMatrix();
+        this.composer.setSize(originalWidth, originalHeight);
+        
+        // Clean up render target
+        renderTarget.dispose();
+        
+        // Generate filename if not provided
+        if (!filename) {
+            const timestamp = new Date().toISOString().replace(/[:]/g, '-').split('.')[0];
+            filename = `lakehouse-poster-${width}x${height}-${timestamp}.png`;
+        }
+        
+        // Return canvas for further processing or download
+        return new Promise((resolve) => {
+            canvas.toBlob((blob) => {
+                resolve({ blob, canvas, filename });
+            }, 'image/png', 1.0);
+        });
+    }
+    
+    // Utility method to download screenshot
+    async downloadScreenshot(width = 3840, height = 2160, filename = null) {
+        try {
+            const { blob, filename: finalFilename } = await this.captureScreenshot(width, height, filename);
+            
+            // Create download link
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = finalFilename;
+            link.click();
+            
+            // Clean up
+            setTimeout(() => URL.revokeObjectURL(url), 100);
+            
+            console.log(`Screenshot saved: ${finalFilename}`);
+            return true;
+        } catch (error) {
+            console.error('Failed to capture screenshot:', error);
+            return false;
         }
     }
     
