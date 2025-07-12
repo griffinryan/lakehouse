@@ -7,7 +7,6 @@ import { SwirlingBackground } from './SwirlingBackground.js';
 import { Tree } from './Tree.js';
 import { TextSwirl } from './TextSwirl.js';
 import { MouseFollowText } from './MouseFollowText.js';
-import { UIBoundaryManager } from './UIBoundaryManager.js';
 
 export class FireflySystem {
     constructor(container = document.body) {
@@ -24,7 +23,6 @@ export class FireflySystem {
         this.backgroundCamera = null;
         this.textSwirl = null;
         this.mouseFollowText = null;
-        this.uiBoundaryManager = null;
         
         // Configuration
         this.config = {
@@ -38,10 +36,7 @@ export class FireflySystem {
             fogFar: 1000,
             bloomStrength: 4.0,  // Increased for more explosive visual impact
             bloomRadius: 1.2,    // Wider bloom spread
-            bloomThreshold: 0.05,  // Lower threshold to capture more light
-            uiAvoidanceStrength: 0.8,  // Strength of UI element avoidance
-            uiAvoidanceEnabled: true,  // Toggle UI avoidance on/off
-            uiBoundaryPadding: 50  // Padding around UI elements in pixels
+            bloomThreshold: 0.05  // Lower threshold to capture more light
         };
         
         this.init();
@@ -119,10 +114,6 @@ export class FireflySystem {
         const rimLight = new THREE.DirectionalLight(0x8090a0, 0.2);
         rimLight.position.set(-100, 50, -50);
         this.scene.add(rimLight);
-        
-        // Initialize UI boundary manager
-        this.uiBoundaryManager = new UIBoundaryManager(this.camera, this.renderer.domElement);
-        this.uiBoundaryManager.setPadding(this.config.uiBoundaryPadding);
     }
     
     createBackground() {
@@ -171,11 +162,6 @@ export class FireflySystem {
                 );
             }
             
-            // Ensure firefly spawns outside UI boundaries
-            if (this.config.uiAvoidanceEnabled && this.uiBoundaryManager) {
-                position = this.uiBoundaryManager.findSafeSpawnPosition(position);
-            }
-            
             const firefly = new Firefly(geometry, {
                 index: i,
                 position: position,
@@ -184,9 +170,7 @@ export class FireflySystem {
                 blinkSpeed: Math.random() * 0.5 + 0.5,
                 floatSpeed: Math.random() * 0.3 + 0.2,
                 floatRadius: Math.random() * 20 + 10,
-                curiosity: Math.random() * 0.7 + 0.3,
-                uiBoundaryManager: this.config.uiAvoidanceEnabled ? this.uiBoundaryManager : null,
-                uiAvoidanceStrength: this.config.uiAvoidanceStrength
+                curiosity: Math.random() * 0.7 + 0.3
             });
             
             this.fireflies.push(firefly);
@@ -423,19 +407,6 @@ export class FireflySystem {
                 this.config.fogFar
             );
         }
-        
-        // Update UI boundary manager settings
-        if (newConfig.uiBoundaryPadding && this.uiBoundaryManager) {
-            this.uiBoundaryManager.setPadding(newConfig.uiBoundaryPadding);
-        }
-        
-        // Update firefly UI avoidance settings
-        if (newConfig.uiAvoidanceEnabled !== undefined || newConfig.uiAvoidanceStrength !== undefined) {
-            this.fireflies.forEach(firefly => {
-                firefly.uiBoundaryManager = this.config.uiAvoidanceEnabled ? this.uiBoundaryManager : null;
-                firefly.uiAvoidanceStrength = this.config.uiAvoidanceStrength;
-            });
-        }
     }
     
     // High-quality screenshot capture method
@@ -558,7 +529,6 @@ export class FireflySystem {
         if (this.tree) this.tree.dispose();
         if (this.textSwirl) this.textSwirl.destroy();
         if (this.mouseFollowText) this.mouseFollowText.destroy();
-        if (this.uiBoundaryManager) this.uiBoundaryManager.destroy();
         this.renderer.dispose();
         this.composer.dispose();
     }

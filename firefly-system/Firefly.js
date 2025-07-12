@@ -13,8 +13,6 @@ export class Firefly {
             floatRadius: 15,
             curiosity: 0.5,
             color: new THREE.Color().setHSL(0.11 + Math.random() * 0.05, 0.8, 0.5), // Warm yellows to greens
-            uiBoundaryManager: null,
-            uiAvoidanceStrength: 0.8,
             ...options
         };
         
@@ -68,11 +66,6 @@ export class Firefly {
         // Floating behavior
         this.updateFloatingBehavior(deltaTime);
         
-        // UI avoidance behavior
-        if (this.options.uiBoundaryManager) {
-            this.updateUIAvoidance(deltaTime);
-        }
-        
         // Blinking behavior
         this.updateBlinkingBehavior(deltaTime);
         
@@ -110,28 +103,6 @@ export class Firefly {
         
         // Damping
         this.velocity.multiplyScalar(0.98);
-    }
-    
-    updateUIAvoidance(deltaTime) {
-        const repulsionForce = this.options.uiBoundaryManager.getRepulsionForce(
-            this.mesh.position, 
-            this.options.uiAvoidanceStrength
-        );
-        
-        if (repulsionForce.length() > 0) {
-            // Apply repulsion force with smooth acceleration
-            const forceMultiplier = 50 * deltaTime;
-            this.velocity.add(repulsionForce.multiplyScalar(forceMultiplier));
-            
-            // Add slight upward bias to make fireflies flow over UI elements
-            this.velocity.y += repulsionForce.length() * 10 * deltaTime;
-            
-            // Limit maximum avoidance velocity to keep movement natural
-            const maxAvoidanceSpeed = 150;
-            if (this.velocity.length() > maxAvoidanceSpeed) {
-                this.velocity.normalize().multiplyScalar(maxAvoidanceSpeed);
-            }
-        }
     }
     
     updateBlinkingBehavior(deltaTime) {
