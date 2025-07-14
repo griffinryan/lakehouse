@@ -509,38 +509,31 @@ body {
     letter-spacing: -0.02em;
 }
 
-/* Individual letter styling for Torpoise */
-.band-letter {
-    display: inline-block;
-    font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: -0.08em; /* Tighter spacing for single letters */
-    margin: 0 -0.02em; /* Bring letters closer */
-    color: var(--coral-pink); /* Base color for non-highlighted letters */
+/* Band name styling for a-Ron gubbe and the zips */
+.a-ron-gubbe .band-word {
+    font-family: 'Anton', sans-serif;
+    letter-spacing: -0.02em;
 }
 
-.torpoise .band-letter {
-    font-family: 'Black Ops One', sans-serif;
-}
-
-.torpoise .band-letter.highlight {
-    color: var(--cream);
-    text-shadow: 0 0 20px rgba(254, 243, 199, 0.5);
+.a-ron-gubbe .band-word.highlight {
+    color: var(--coral-pink);
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
 }
 
 /* Row-specific font sizes */
 .lineup-row-1 .band-name {
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    min-height: 4rem;
+    font-size: clamp(3.75rem, 7.5vw, 5.25rem);
+    min-height: 6rem;
 }
 
 .lineup-row-2 .band-name {
-    font-size: clamp(2rem, 4vw, 3rem);
-    min-height: 3.5rem;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    min-height: 5.25rem;
 }
 
 .lineup-row-3 .band-name {
-    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-    min-height: 3rem;
+    font-size: clamp(2.625rem, 5.25vw, 3.75rem);
+    min-height: 4.5rem;
 }
 
 /* Small words styling */
@@ -574,15 +567,6 @@ body {
 }
 
 /* Individual Band Styling with Transforms */
-.torpoise {
-    transform: skewY(-5deg) scaleX(0.9);
-    transform-origin: left center;
-}
-
-.torpoise .band-word:first-child {
-    font-family: 'Black Ops One', sans-serif;
-}
-
 .mel-lanzieri {
     transform: skewY(3deg) scaleX(0.75);
     letter-spacing: -0.05em;
@@ -592,17 +576,18 @@ body {
     font-family: 'Anton', sans-serif;
 }
 
-.the-zipps {
+.a-ron-gubbe {
     transform: skewY(-3deg) rotate(-2deg) scaleX(0.85);
     letter-spacing: -0.06em;
 }
 
-.the-zipps .small-word:first-child {
-    transform: rotate(-20deg) translateY(0.2em);
+.a-ron-gubbe .small-word {
+    transform: rotate(-10deg) translateY(0.1em);
     font-size: 0.5em;
+    margin: 0 0.1em;
 }
 
-.the-zipps .band-word:last-child {
+.a-ron-gubbe .band-word:last-child {
     font-family: 'Black Ops One', sans-serif;
     transform: scaleX(0.85);
 }
@@ -671,13 +656,13 @@ body {
 }
 
 /* Individual band hover overrides */
-.torpoise:hover {
-    animation: cosineWiggle 1.2s ease-in-out infinite, torpoiseWiggle 1.2s ease-in-out infinite;
+.a-ron-gubbe:hover {
+    animation: cosineWiggle 1.25s ease-in-out infinite, aRonGubbeWiggle 1.25s ease-in-out infinite;
 }
 
-@keyframes torpoiseWiggle {
-    0%, 100% { transform: skewY(-5deg) scaleX(0.9) scale(1.05) translateY(0) rotateZ(0deg); }
-    50% { transform: skewY(-5deg) scaleX(0.9) scale(1.08) translateY(-15px) rotateZ(3deg); }
+@keyframes aRonGubbeWiggle {
+    0%, 100% { transform: skewY(-3deg) rotate(-2deg) scaleX(0.85) scale(1.05) translateY(0) translateX(0); }
+    50% { transform: skewY(-3deg) rotate(-2deg) scaleX(0.85) scale(1.08) translateY(-12px) translateX(-8px) rotateZ(2deg); }
 }
 
 .mel-lanzieri:hover {
@@ -687,15 +672,6 @@ body {
 @keyframes melLanzieriWiggle {
     0%, 100% { transform: skewY(3deg) scaleX(0.75) scale(1.05) translateY(0) rotateZ(0deg); }
     50% { transform: skewY(3deg) scaleX(0.75) scale(1.08) translateY(-15px) rotateZ(-3deg); }
-}
-
-.the-zipps:hover {
-    animation: cosineWiggle 1.4s ease-in-out infinite, theZippsWiggle 1.4s ease-in-out infinite;
-}
-
-@keyframes theZippsWiggle {
-    0%, 100% { transform: skewY(-3deg) rotate(-2deg) scaleX(0.85) scale(1.05) translateY(0); }
-    50% { transform: skewY(-3deg) rotate(-2deg) scaleX(0.85) scale(1.08) translateY(-15px) rotateZ(4deg); }
 }
 
 .single-bodies:hover {
@@ -885,17 +861,17 @@ body {
     }
     
     .lineup-row-1 .band-name {
-        font-size: clamp(2rem, 8vw, 2.5rem);
+        font-size: clamp(3rem, 12vw, 3.75rem);
         min-height: auto;
     }
     
     .lineup-row-2 .band-name {
-        font-size: clamp(1.75rem, 7vw, 2.25rem);
+        font-size: clamp(2.625rem, 10.5vw, 3.375rem);
         min-height: auto;
     }
     
     .lineup-row-3 .band-name {
-        font-size: clamp(1.5rem, 6vw, 2rem);
+        font-size: clamp(2.25rem, 9vw, 3rem);
         min-height: auto;
     }
     
