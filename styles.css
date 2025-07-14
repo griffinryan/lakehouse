@@ -325,9 +325,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 3rem;
-    margin: 2rem 0;
-    flex-wrap: wrap;
+    margin: 1rem 0;
 }
 
 .contact-act {
@@ -365,28 +363,6 @@ body {
     transform: rotate(-3deg);
 }
 
-/* Griffin's letter styling - same as Lauren */
-.contact-griffin .name-letter {
-    display: inline-block;
-    font-family: 'Permanent Marker', cursive;
-    letter-spacing: -0.05em;
-    margin: 0 -0.01em;
-    color: var(--coral-pink);
-}
-
-.contact-griffin .name-letter.highlight {
-    color: var(--cream);
-    text-shadow: 0 0 20px rgba(254, 243, 199, 0.5);
-}
-
-.contact-griffin .name-letter-space {
-    display: inline-block;
-    width: 0.3em;
-}
-
-.contact-griffin {
-    transform: skewY(2deg);
-}
 
 /* Email styling */
 .contact-email {
@@ -406,6 +382,8 @@ body {
     font-size: 2rem;
     color: var(--sunset-gold);
     animation: spinDivider 8s linear infinite;
+    margin-bottom: 1.5rem;
+    text-align: center;
 }
 
 .divider-symbol {
@@ -427,10 +405,6 @@ body {
 
 .contact-lauren:hover {
     animation: cosineWiggle 1.3s ease-in-out infinite, laurenDance 1.3s ease-in-out infinite;
-}
-
-.contact-griffin:hover {
-    animation: cosineWiggle 1.2s ease-in-out infinite, griffinGroove 1.2s ease-in-out infinite;
 }
 
 .contact-act:hover .name-letter:not(.highlight),
@@ -460,15 +434,6 @@ body {
     }
     75% { 
         transform: rotate(-3deg) translateX(8px) scale(1.03); 
-    }
-}
-
-@keyframes griffinGroove {
-    0%, 100% { 
-        transform: skewY(2deg) translateY(0) scale(1); 
-    }
-    50% { 
-        transform: skewY(2deg) translateY(-8px) scale(1.05); 
     }
 }
 
