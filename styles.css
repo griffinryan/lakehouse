@@ -474,13 +474,13 @@ body {
     letter-spacing: -0.02em;
 }
 
-/* Band name styling for a-Ron gubbe and the zips */
-.a-ron-gubbe .band-word {
+/* Band name styling for the zips */
+.the-zips .band-word {
     font-family: 'Anton', sans-serif;
     letter-spacing: -0.02em;
 }
 
-.a-ron-gubbe .band-word.highlight {
+.the-zips .band-word.highlight {
     color: var(--coral-pink);
     text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
 }
