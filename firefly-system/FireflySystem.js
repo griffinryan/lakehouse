@@ -41,7 +41,11 @@ export class FireflySystem {
             bloomThreshold: 0.05,  // Lower threshold to capture more light
             uiAvoidanceStrength: 0.8,  // Strength of UI element avoidance
             uiAvoidanceEnabled: true,  // Toggle UI avoidance on/off
-            uiBoundaryPadding: 50  // Padding around UI elements in pixels
+            uiBoundaryPadding: 50,  // Padding around UI elements in pixels
+            mobileClusteringEnabled: true,  // Enable responsive clustering for mobile
+            mobileClusterZones: [-300, -100, 100, 300],  // Vertical cluster positions for mobile
+            mobileEdgeOffset: 200,  // Base distance from edge on mobile
+            desktopEdgeOffset: 350  // Base distance from edge on desktop
         };
         
         this.init();
@@ -140,6 +144,18 @@ export class FireflySystem {
         const treeSpawnPoints = this.tree.getSpawnPoints();
         const treeBounds = this.tree.getBoundingBox();
         
+        // Calculate responsive parameters based on window aspect ratio
+        const aspectRatio = window.innerWidth / window.innerHeight;
+        const isMobile = aspectRatio < 0.7; // Portrait/vertical orientation
+        const isTablet = aspectRatio >= 0.7 && aspectRatio < 1.2;
+        
+        // Adjust clustering parameters based on screen orientation
+        const sideClusteringRatio = isMobile ? 0.5 : 0.4; // More side clustering on mobile
+        const edgeOffsetBase = isMobile ? this.config.mobileEdgeOffset : this.config.desktopEdgeOffset;
+        const edgeOffsetRange = isMobile ? 50 : 100; // Tighter clustering on mobile
+        const verticalSpread = isMobile ? 800 : 600; // More vertical spread on mobile
+        const horizontalSpread = isMobile ? 600 : 900; // Less horizontal spread on mobile
+        
         for (let i = 0; i < this.config.fireflyCount; i++) {
             let position;
             
@@ -153,20 +169,36 @@ export class FireflySystem {
                     (Math.random() - 0.5) * 60
                 ));
             } 
-            // 40% spawn on the sides of the window for enhanced orbital effect visibility
-            else if (i < this.config.fireflyCount * 0.7) {
+            // Side clustering - responsive to screen orientation
+            else if (i < this.config.fireflyCount * (0.3 + sideClusteringRatio)) {
                 const side = Math.random() < 0.5 ? -1 : 1;  // Left or right side
-                const edgeOffset = 350 + Math.random() * 100;  // Distance from center
-                position = new THREE.Vector3(
-                    side * edgeOffset,  // Far left or right
-                    (Math.random() - 0.5) * 600,  // Vertical spread
-                    (Math.random() - 0.5) * 400   // Depth spread
-                );
+                
+                // For mobile/vertical screens, create denser clusters at specific heights
+                if (isMobile && this.config.mobileClusteringEnabled) {
+                    // Create cluster zones vertically
+                    const clusterZones = this.config.mobileClusterZones;
+                    const zoneIndex = Math.floor(Math.random() * clusterZones.length);
+                    const baseY = clusterZones[zoneIndex];
+                    
+                    position = new THREE.Vector3(
+                        side * (edgeOffsetBase + Math.random() * edgeOffsetRange),
+                        baseY + (Math.random() - 0.5) * 150, // Tight vertical clustering
+                        (Math.random() - 0.5) * 300
+                    );
+                } else {
+                    // Desktop/landscape distribution
+                    const edgeOffset = edgeOffsetBase + Math.random() * edgeOffsetRange;
+                    position = new THREE.Vector3(
+                        side * edgeOffset,
+                        (Math.random() - 0.5) * verticalSpread,
+                        (Math.random() - 0.5) * 400
+                    );
+                }
             } else {
-                // Rest spawn randomly in scene
+                // Rest spawn randomly in scene with responsive spread
                 position = new THREE.Vector3(
-                    (Math.random() - 0.5) * 900,  // Wider scene distribution
-                    (Math.random() - 0.5) * 700,
+                    (Math.random() - 0.5) * horizontalSpread,
+                    (Math.random() - 0.5) * verticalSpread,
                     (Math.random() - 0.5) * 500
                 );
             }
@@ -235,6 +267,22 @@ export class FireflySystem {
             minDistance: 20,           // Tighter minimum distance
             stickiness: 0.3            // Added stickiness
         };
+    }
+    
+    recreateFireflies() {
+        // Remove existing fireflies
+        this.fireflies.forEach(firefly => {
+            this.scene.remove(firefly.mesh);
+            firefly.destroy();
+        });
+        
+        // Clear arrays
+        this.fireflies = [];
+        this.firefliesForeground = [];
+        this.firefliesBackground = [];
+        
+        // Create new fireflies with updated distribution
+        this.createFireflies();
     }
     
     updateFireflies(deltaTime) {
@@ -308,6 +356,18 @@ export class FireflySystem {
             if (this.background) {
                 this.background.updateResolution();
             }
+            
+            // Check if aspect ratio changed significantly (e.g., rotation on mobile)
+            const newAspectRatio = window.innerWidth / window.innerHeight;
+            const oldAspectRatio = this.lastAspectRatio || newAspectRatio;
+            const aspectRatioChange = Math.abs(newAspectRatio - oldAspectRatio);
+            
+            // If aspect ratio changed significantly, recreate fireflies with new distribution
+            if (aspectRatioChange > 0.5) {
+                this.recreateFireflies();
+            }
+            
+            this.lastAspectRatio = newAspectRatio;
         });
         
         // Touch events for mobile

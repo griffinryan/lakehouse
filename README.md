@@ -1,5 +1,7 @@
 # Lakehouse Seattle - Interactive Firefly Experience
 
+(Griffin Ryan)[https://griffinryan.com/1]
+
 An immersive web experience featuring interactive fireflies, a procedurally generated tree, and a Van Gogh-inspired swirling night sky. Built with Three.js and WebGL.
 
 ## 🌟 Features
